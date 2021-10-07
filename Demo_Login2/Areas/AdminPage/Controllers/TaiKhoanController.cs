@@ -21,7 +21,7 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             return View(lstAccount);
         }
         //abc
-
+        //laydanhsachtaikhoan
         public List<AccountDTO> LayDanhSachTaiKhoan()
         {
             using (TaiKhoanBusiness bs = new TaiKhoanBusiness())
