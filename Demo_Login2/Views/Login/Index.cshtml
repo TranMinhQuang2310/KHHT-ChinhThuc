@@ -1,0 +1,35 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Daily UI - Day 1 Sign In</title>
+
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="~/Content/login/animate.css">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="~/Content/login/style.css">
+    <script src="~/Content/login/login.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top">
+            <h1 id="title" class="hidden"><span id="logo">Quản Lý Kế Hoạch Học Tập <span>VLU</span></span></h1>
+        </div>
+        <div class="login-box animated fadeInUp">
+            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("SignIn", "login")'"><img class="img-logo" src="~/App_Data/images/logo-vlu.png" alt="VLU">Đăng nhập với tài khoản VLU</button>
+            <br />
+        </div>nnn
+    </div>
+</body>
+</html>
+
