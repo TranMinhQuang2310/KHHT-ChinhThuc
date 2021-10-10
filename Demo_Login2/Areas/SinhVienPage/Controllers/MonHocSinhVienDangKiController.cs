@@ -42,19 +42,6 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(List<MonHocSinhVienDangKiDTO> list)
         {
-            var result = Them_MonHocVuotVaoDanhSach(list);
-            
-
-            if (result == true)
-            {
-                ViewBag.Success = "Thành công";
-                
-            }
-            else
-            {
-                ViewBag.Error = "Thất bại";
-            }           
-
             HttpCookie IDKhoaDaoTao = HttpContext.Request.Cookies.Get("idKhoaDaoTao");
             var idKhoaDT = Convert.ToInt32(IDKhoaDaoTao.Value);
 
@@ -63,9 +50,41 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
 
             int idHocKi = getHocKiChoSVDangKi(idKhoaDT);
             ViewBag.tenhocki = LayTenHocKi(idHocKi);
-            
 
-            var lstmonhocsvdk = this.LayMonHocSinhVienDangKi(idKhoaDT, idAccount, idHocKi);
+            foreach(var item in list)
+            {
+                var hethanthoigiandangki = Check_TrangThaiMonHocQuaThoiGianDangKi(idKhoaDT, Convert.ToInt32(item.IDHocKi));
+                if(hethanthoigiandangki == true)
+                {
+                    Them_MonHocVuotVaoDanhSach(item);
+                }
+                else
+                {
+                    ViewBag.Errorhethandangki = "Đã quá thời gian đăng kí môn học";
+                    HttpCookie IDKhoaDaoTao1 = HttpContext.Request.Cookies.Get("idKhoaDaoTao");
+                    var idKhoaDT1 = Convert.ToInt32(IDKhoaDaoTao1.Value);
+
+                    HttpCookie idAcc1 = HttpContext.Request.Cookies.Get("idAccount");
+                    var idAccount1 = Convert.ToInt32(idAcc1.Value);
+
+                    int idHocKi1 = getHocKiChoSVDangKi(idKhoaDT1);
+                    ViewBag.tenhocki = LayTenHocKi(idHocKi1);
+
+                }
+            }
+            ViewBag.Success = "Thành công";
+
+            var result = Mo_TrangThaiDangKiMonHoc(idKhoaDT, idHocKi);
+
+            var lstmonhocsvdk = this.LayMonHocSinhVienDangKi(0, 0, 0);
+            if (result == true)
+            {
+                lstmonhocsvdk = LayMonHocSinhVienDangKi(idKhoaDT, idAccount, idHocKi);
+            }
+            else
+            {
+                ViewBag.Errorthoigiandangki = "Chưa đến thời gian mở đăng kí";
+            }
 
             return View(lstmonhocsvdk);
         }
@@ -150,11 +169,11 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
             }
         }
 
-        public bool Them_MonHocVuotVaoDanhSach(List<MonHocSinhVienDangKiDTO> list)
+        public bool Them_MonHocVuotVaoDanhSach(MonHocSinhVienDangKiDTO item)
         {
             using(MonHocSinhVienDangKiBusiness bs = new MonHocSinhVienDangKiBusiness())
             {
-                return bs.Them_MonHocVuotVaoDanhSach(list);
+                return bs.Them_MonHocVuotVaoDanhSach(item);
             }
         }
 

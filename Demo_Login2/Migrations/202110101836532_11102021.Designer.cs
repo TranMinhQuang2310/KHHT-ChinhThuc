@@ -7,13 +7,13 @@ namespace Demo_Login2.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class _10062021 : IMigrationMetadata
+    public sealed partial class _11102021 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(_10062021));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(_11102021));
         
         string IMigrationMetadata.Id
         {
-            get { return "202110061341391_10062021"; }
+            get { return "202110101836532_11102021"; }
         }
         
         string IMigrationMetadata.Source
