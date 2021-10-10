@@ -162,7 +162,6 @@ namespace Demo_Login2.Areas.AdminPage.Business
                     }
                     result = trangthais.TrangThai;
                 }
-                model.SaveChanges();
                 return result;
             }catch(Exception ex)
             {

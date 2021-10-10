@@ -150,13 +150,10 @@ namespace Demo_Login2.Areas.AdminPage.Business
             }
         }
 
-        public bool Them_MonHocVuotVaoDanhSach(List<MonHocSinhVienDangKiDTO> list)
+        public bool Them_MonHocVuotVaoDanhSach(MonHocSinhVienDangKiDTO item)
         {
             try
             {
-                foreach (var item in list)
-                {
-
                     var kiemtramonhoc = model.MonHocSinhVienDangKis.Where(s => s.IDHocKi == item.IDHocKi && s.IDAccount == item.IDAccount && s.IDMonHoc == item.IDMonHoc && s.LoaiDangKi == item.LoaiDangKi).FirstOrDefault();
                     if (kiemtramonhoc != null)
                     {
@@ -164,8 +161,6 @@ namespace Demo_Login2.Areas.AdminPage.Business
                     }
                     else
                     {
-                        if (item.TrangThai == true)
-                        {
                             var newItem = new MonHocSinhVienDangKi();
                             newItem.IDMonHoc = item.IDMonHoc;
                             newItem.IDAccount = item.IDAccount;
@@ -176,9 +171,9 @@ namespace Demo_Login2.Areas.AdminPage.Business
                             newItem.TrangThai = item.TrangThai;
 
                             model.MonHocSinhVienDangKis.Add(newItem);
-                        }
+
                     }
-                }
+                
                 model.SaveChanges();
                 return true;
             }
