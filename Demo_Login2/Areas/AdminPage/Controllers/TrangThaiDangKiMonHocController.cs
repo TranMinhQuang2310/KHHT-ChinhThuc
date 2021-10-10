@@ -17,7 +17,31 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             var lsttrangthai = LayDanhSachTrangThaiDangKiMonHoc();
             ViewBag.khoaDT = LayDanhSachKhoaDaoTao();
             ViewBag.hocki = LayDanhSachHocKi();
+            foreach(var item in lsttrangthai)
+            {
+                Mo_TrangThaiDangKiMonHoc(Convert.ToInt32(item.IDKhoaDaoTao), Convert.ToInt32(item.IDHocKi));
+            }
+            foreach(var item1 in lsttrangthai)
+            {
+                Check_TrangThaiMonHocQuaThoiGianDangKi(Convert.ToInt32(item1.IDKhoaDaoTao), Convert.ToInt32(item1.IDHocKi));
+            }
             return View(lsttrangthai);
+        }
+
+        public bool Mo_TrangThaiDangKiMonHoc(int idKhoaDT,int idHocKi)
+        {
+            using (TrangThaiDangKiMonHocBusiness bs = new TrangThaiDangKiMonHocBusiness())
+            {
+                return bs.Mo_TrangThaiDangKiMonHoc(idKhoaDT,idHocKi);
+            }
+        }
+
+        public bool Check_TrangThaiMonHocQuaThoiGianDangKi(int idKhoaDT, int idHocKi)
+        {
+            using (TrangThaiDangKiMonHocBusiness bs = new TrangThaiDangKiMonHocBusiness())
+            {
+                return bs.Check_TrangThaiMonHocQuaThoiGianDangKi(idKhoaDT, idHocKi);
+            }
         }
 
         public List<HocKiDTO> LayDanhSachHocKi()
@@ -59,6 +83,20 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             var id = LayHocKiTheoKhoaDaoTaoDaTonTai(trangthaidangki.IDHocKi,trangthaidangki.IDKhoaDaoTao);
             var sosanh = SoSanhThoiGian(trangthaidangki.ThoiGianBatDau, trangthaidangki.ThoiGianKetThuc);
 
+            //so sanh thoi gian mo mon hoc
+            var thoigianbatdau = Convert.ToDateTime(trangthaidangki.ThoiGianBatDau);
+            var thoigianketthuc = Convert.ToDateTime(trangthaidangki.ThoiGianKetThuc);
+            var thoigianhientai = DateTime.Now;
+
+            if(thoigianbatdau <= thoigianhientai && thoigianhientai <= thoigianketthuc)
+            {
+                trangthaidangki.TrangThai = true;
+            }
+            else
+            {
+                trangthaidangki.TrangThai = false;
+            }
+            //bat loi mo dang ki mon hoc
             if (id > 0)
             {
                 ViewBag.Error = "Học Kì trong Khóa Đào Tạo này đã tồn tại";
@@ -124,6 +162,21 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             var findkhoa = LayHocKiTheoKhoaDaoTaoDaTonTai(trangthaidangki.IDHocKi,trangthaidangki.IDKhoaDaoTao);
             var sosanh = SoSanhThoiGian(trangthaidangki.ThoiGianBatDau, trangthaidangki.ThoiGianKetThuc);
 
+            //so sanh thoi gian mo mon hoc
+            var thoigianbatdau = Convert.ToDateTime(trangthaidangki.ThoiGianBatDau);
+            var thoigianketthuc = Convert.ToDateTime(trangthaidangki.ThoiGianKetThuc);
+            var thoigianhientai = DateTime.Now;
+
+            if(thoigianbatdau <= thoigianhientai && thoigianhientai <= thoigianketthuc)
+            {
+                trangthaidangki.TrangThai = true;
+            }
+            else
+            {
+                trangthaidangki.TrangThai = false;
+            }
+
+            //bat loi mo dang ki mon hoc
             if ((findkhoa == trangthaidangki.ID || findkhoa == 0) && sosanh == true)
             {
                 SuaTrangThaiDangKiMonHoc(trangthaidangki);

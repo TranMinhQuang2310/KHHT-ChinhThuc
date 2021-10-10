@@ -21,8 +21,21 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
 
             int idHocKi = getHocKiChoSVDangKi(idKhoaDT);
             ViewBag.tenhocki = LayTenHocKi(idHocKi);
+            
 
-            var lstmonhocsvdk = this.LayMonHocSinhVienDangKi(idKhoaDT, idAccount, idHocKi);
+            var result = Mo_TrangThaiDangKiMonHoc(idKhoaDT, idHocKi);
+
+            var lstmonhocsvdk = this.LayMonHocSinhVienDangKi(0,0,0);
+            if(result == true)
+            {
+                lstmonhocsvdk = LayMonHocSinhVienDangKi(idKhoaDT, idAccount, idHocKi);
+            }
+            else
+            {
+                ViewBag.Errorthoigiandangki = "Chưa đến thời gian mở đăng kí";
+            }
+            
+
             return View(lstmonhocsvdk);
         }
         [HttpPost]
@@ -30,16 +43,17 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
         public ActionResult Index(List<MonHocSinhVienDangKiDTO> list)
         {
             var result = Them_MonHocVuotVaoDanhSach(list);
+            
 
-            if(result == true)
+            if (result == true)
             {
-                ViewBag.Success = "Thanh cong";
+                ViewBag.Success = "Thành công";
                 
             }
             else
             {
-                ViewBag.Error = "That bai";
-            }
+                ViewBag.Error = "Thất bại";
+            }           
 
             HttpCookie IDKhoaDaoTao = HttpContext.Request.Cookies.Get("idKhoaDaoTao");
             var idKhoaDT = Convert.ToInt32(IDKhoaDaoTao.Value);
@@ -49,10 +63,27 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
 
             int idHocKi = getHocKiChoSVDangKi(idKhoaDT);
             ViewBag.tenhocki = LayTenHocKi(idHocKi);
+            
 
             var lstmonhocsvdk = this.LayMonHocSinhVienDangKi(idKhoaDT, idAccount, idHocKi);
 
             return View(lstmonhocsvdk);
+        }
+
+        public bool Mo_TrangThaiDangKiMonHoc(int idKhoaDT,int idHocKi)
+        {
+            using (TrangThaiDangKiMonHocBusiness bs = new TrangThaiDangKiMonHocBusiness())
+            {
+                return bs.Mo_TrangThaiDangKiMonHoc(idKhoaDT, idHocKi);
+            }
+        }
+
+        public bool Check_TrangThaiMonHocQuaThoiGianDangKi(int idKhoaDT,int idHocKi)
+        {
+            using(TrangThaiDangKiMonHocBusiness bs = new TrangThaiDangKiMonHocBusiness())
+            {
+                return bs.Check_TrangThaiMonHocQuaThoiGianDangKi(idKhoaDT, idHocKi);
+            }
         }
 
         public ActionResult Lay_MonHocVuot(string id)

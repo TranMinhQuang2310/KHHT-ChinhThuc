@@ -108,5 +108,66 @@ namespace Demo_Login2.Areas.AdminPage.Business
                 throw ex;
             }
         }
+
+        public bool Mo_TrangThaiDangKiMonHoc(int idKhoaDT,int idHocKi)
+        {
+            try
+            {
+                var trangthais = model.TrangThaiDangKiMonHocs.Where(s => s.IDKhoaDaoTao == idKhoaDT && s.IDHocKi == idHocKi).FirstOrDefault();
+
+                var result = false;
+                if(trangthais != null)
+                {
+                    var thoigianbatdau = Convert.ToDateTime(trangthais.ThoiGianBatDau);
+                    var thoigianketthuc = Convert.ToDateTime(trangthais.ThoiGianKetThuc);
+                    var thoigianhientai = DateTime.Now;
+
+                    if(thoigianbatdau <= thoigianhientai && thoigianhientai <= thoigianketthuc)
+                    {
+                        trangthais.TrangThai = true;
+                    }
+                    else
+                    {
+                        trangthais.TrangThai = false;
+                    }
+                    result = trangthais.TrangThai;
+                }
+                model.SaveChanges();
+                return result;
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool Check_TrangThaiMonHocQuaThoiGianDangKi(int idKhoaDT,int idHocKi)
+        {
+            try
+            {
+                var trangthais = model.TrangThaiDangKiMonHocs.Where(s => s.IDKhoaDaoTao == idKhoaDT && s.IDHocKi == idHocKi).FirstOrDefault();
+                var result = false;
+                if(trangthais != null)
+                {
+                    var thoigianbatdau = Convert.ToDateTime(trangthais.ThoiGianBatDau);
+                    var thoigianketthuc = Convert.ToDateTime(trangthais.ThoiGianKetThuc);
+                    var thoigianhientai = DateTime.Now;
+
+                    if(thoigianbatdau <= thoigianhientai && thoigianhientai <= thoigianketthuc)
+                    {
+                        trangthais.TrangThai = true;
+                    }
+                    else
+                    {
+                        trangthais.TrangThai = false;
+                    }
+                    result = trangthais.TrangThai;
+                }
+                model.SaveChanges();
+                return result;
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

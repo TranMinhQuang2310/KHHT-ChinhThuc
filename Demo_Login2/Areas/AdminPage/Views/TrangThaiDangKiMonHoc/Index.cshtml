@@ -47,40 +47,49 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            @foreach (var row in ViewBag.khoaDT)
-                            {
-                                if (row.ID == item.IDKhoaDaoTao)
+                            <tr>
+                                @foreach (var row in ViewBag.khoaDT)
                                 {
-                                    <td>@row.TenKhoaDaoTao</td>
+                                    if (row.ID == item.IDKhoaDaoTao)
+                                    {
+                                        <td>@row.TenKhoaDaoTao</td>
+                                    }
                                 }
-                            }
-                            @foreach (var row in ViewBag.hocki)
-                            {
-                                if (row.ID == item.IDHocKi)
+                                @foreach (var row in ViewBag.hocki)
                                 {
-                                    <td>@row.TenHocKi</td>
+                                    if (row.ID == item.IDHocKi)
+                                    {
+                                        <td>@row.TenHocKi</td>
+                                    }
                                 }
-                            }
-                            <td>@Convert.ToDateTime(item.ThoiGianBatDau).ToString("dd-MM-yyyy hh:mm:ss")</td>
-                            <td>@Convert.ToDateTime(item.ThoiGianKetThuc).ToString("dd-MM-yyyy hh:mm:ss")</td>
-                            <td>@item.TrangThai</td>
-                            @*<td>@item.GhiChu</td>*@
-                            <td>
-                                <button class="btn btn-outline-warning" title="Sửa" style="cursor:pointer" onclick="location.href='@Url.Action("Edit","TrangThaiDangKiMonHoc",new {id = item.ID})'">
-                                    <i class="fas fa-pen"></i>
-                                    Sửa
-                                </button>
-                                <button class="btn btn-outline-danger btndeleteTrangThaiDangKiMonHoc" title="Xóa" style="cursor:pointer" data-id="@item.ID">
-                                    <i class="fas fa-trash"></i>
-                                    Xóa
-                                </button>
-                                <button class="btn btn-outline-info" title="Xem chi tiết" style="cursor:pointer" onclick="location.href='@Url.Action("Details","TrangThaiDangKiMonHoc",new {id = item.ID})'">
-                                    <i class="fas fa-file-invoice"></i>
-                                    Xem chi tiết
-                                </button>
-                            </td>
-                        </tr>
+                                <td>@Convert.ToDateTime(item.ThoiGianBatDau).ToString("dd-MM-yyyy hh:mm:ss")</td>
+                                <td>@Convert.ToDateTime(item.ThoiGianKetThuc).ToString("dd-MM-yyyy hh:mm:ss")</td>
+                                @if (item.TrangThai == true)
+                                {
+
+
+                                    <td>Mở</td>
+                                }
+                                else
+                                {
+                                    <td>Đóng</td>
+                                }
+                                @*<td>@item.GhiChu</td>*@
+                                <td>
+                                    <button class="btn btn-outline-warning" title="Sửa" style="cursor:pointer" onclick="location.href='@Url.Action("Edit","TrangThaiDangKiMonHoc",new {id = item.ID})'">
+                                        <i class="fas fa-pen"></i>
+                                        Sửa
+                                    </button>
+                                    <button class="btn btn-outline-danger btndeleteTrangThaiDangKiMonHoc" title="Xóa" style="cursor:pointer" data-id="@item.ID">
+                                        <i class="fas fa-trash"></i>
+                                        Xóa
+                                    </button>
+                                    <button class="btn btn-outline-info" title="Xem chi tiết" style="cursor:pointer" onclick="location.href='@Url.Action("Details","TrangThaiDangKiMonHoc",new {id = item.ID})'">
+                                        <i class="fas fa-file-invoice"></i>
+                                        Xem chi tiết
+                                    </button>
+                                </td>
+                            </tr>
                         }
 
                     </tbody>

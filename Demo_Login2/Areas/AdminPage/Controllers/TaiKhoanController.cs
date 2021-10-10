@@ -20,7 +20,6 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             ViewBag.phanloaitaikhoan = LayDanhSachPhanLoaiTaiKhoan();
             return View(lstAccount);
         }
-        //abc
         public List<AccountDTO> LayDanhSachTaiKhoan()
         {
             using (TaiKhoanBusiness bs = new TaiKhoanBusiness())

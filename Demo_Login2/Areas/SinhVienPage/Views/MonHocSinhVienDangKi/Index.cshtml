@@ -89,273 +89,279 @@
                         <th colspan="1">LT</th>
                         <th colspan="1">TH</th>
                     </tr>
-
-                    @using (Html.BeginForm("Index", "MonHocSinhVienDangKi"))
+                    @if (Model.Count() > 0)
                     {
-                        @Html.AntiForgeryToken();
+                        using (Html.BeginForm("Index", "MonHocSinhVienDangKi"))
+                        {
+                            @Html.AntiForgeryToken();
 
-                        var stt = 0;
+                            var stt = 0;
 
-                        var TongTC_chuongtrinhdaotao_batbuoc = 0;
-                        var TongTC_chuongtrinhdaotao_tuchon = 0;
-                        var TongTC_ketquahoctap = 0;
-                        var TongTC_monhocvuot = 0;
+                            var TongTC_chuongtrinhdaotao_batbuoc = 0;
+                            var TongTC_chuongtrinhdaotao_tuchon = 0;
+                            var TongTC_ketquahoctap = 0;
+                            var TongTC_monhocvuot = 0;
 
-                        var chuongtrinhdaotao_batbuoc = Model.Where(c => c.LoaiDangKi == 1);
-                        var chuongtrinhdaotao_tuchon = Model.Where(c => c.LoaiDangKi == 2);
+                            var chuongtrinhdaotao_batbuoc = Model.Where(c => c.LoaiDangKi == 1);
+                            var chuongtrinhdaotao_tuchon = Model.Where(c => c.LoaiDangKi == 2);
 
-                        var ketquahoctap = Model.Where(c => c.LoaiDangKi == 3);
+                            var ketquahoctap = Model.Where(c => c.LoaiDangKi == 3);
 
-                        var monhocvuot = Model.Where(c => c.LoaiDangKi == 4);
+                            var monhocvuot = Model.Where(c => c.LoaiDangKi == 4);
 
+                            <tr>
+                                <th colspan="10">@ViewBag.tenhocki</th>
+                            </tr>
+                            //Mon hoc bat buoc
+                            if (chuongtrinhdaotao_batbuoc.Count() > 0)
+                            {
+                                <tr>
+                                    <th colspan="10">Bắt buộc</th>
+                                </tr>
+                                for (var i = 0; i < Model.Count; i++)
+                                {
+                                    if (Model[i].LoaiDangKi == 1)
+                                    {
+                                        stt = stt + 1;
+                                        <tr>
+                                            <td class="center">@stt</td>
+                                            <td class="col-120">@Html.EditorFor(model => model[i].MaMonHoc, new { htmlAttributes = new { @class = "custom-label w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-400">@Html.EditorFor(model => model[i].TenMonHoc, new { htmlAttributes = new { @class = "custom-label col-400 w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-55">@Html.EditorFor(model => model[i].SoTinChi, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-63">@Html.EditorFor(model => model[i].SoTietLyThuyet, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-63">@Html.EditorFor(model => model[i].SoTietThucHanh, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
+                                            <td></td>
+                                            <td></td>
+                                            @*<td class="col-350">@Html.EditorFor(model => model[i].TenMonHocTienQuyet, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
+                                <td class="col-350">@Html.EditorFor(model => model[i].TenMonHocHocTruoc, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>*@
+                                            <td class="col-350">@Html.EditorFor(model => model[i].TenKhoaBoMon, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
+                                            <td>
+                                                @Html.EditorFor(model => model[i].TrangThai, new { htmlAttributes = new { @class = "form-control w-100" } })
+
+                                                @Html.HiddenFor(model => model[i].IDHocKi, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].IDAccount, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].IDMonHoc, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].LoaiDangKi, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].IDKhoaBoMon, new { htmlAttributes = new { @class = "form-control" } })
+                                                @*@Html.HiddenFor(model => model[i].IDHocPhanTienQuyet, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.HiddenFor(model => model[i].IDHocPhanHocTruoc, new { htmlAttributes = new { @class = "form-control" } })*@
+                                            </td>
+                                        </tr>
+                                        TongTC_chuongtrinhdaotao_batbuoc = TongTC_chuongtrinhdaotao_batbuoc + Model[i].SoTinChi;
+                                    }
+
+                                }
+                                if (TongTC_chuongtrinhdaotao_batbuoc > 0)
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-right font-weight-bold">Cộng học phần Bắt buộc</td>
+                                        <td class="font-weight-bold ">@TongTC_chuongtrinhdaotao_batbuoc</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            }
+                            //Mon hoc tu chon
+                            if (chuongtrinhdaotao_tuchon.Count() > 0)
+                            {
+                                <tr>
+                                    <th colspan="10">Tự chọn</th>
+                                </tr>
+                                for (var i = 0; i < Model.Count; i++)
+                                {
+                                    if (Model[i].LoaiDangKi == 2)
+                                    {
+                                        stt = stt + 1;
+                                        <tr>
+                                            <td class="center">@stt</td>
+                                            <td class="col-120">@Html.EditorFor(model => model[i].MaMonHoc, new { htmlAttributes = new { @class = "custom-label w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-400">@Html.EditorFor(model => model[i].TenMonHoc, new { htmlAttributes = new { @class = "custom-label col-400 w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-55">@Html.EditorFor(model => model[i].SoTinChi, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-63">@Html.EditorFor(model => model[i].SoTietLyThuyet, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-63">@Html.EditorFor(model => model[i].SoTietThucHanh, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
+                                            <td></td>
+                                            <td></td>
+                                            @*<td class="col-350">@Html.EditorFor(model => model[i].TenMonHocTienQuyet, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
+                                <td class="col-350">@Html.EditorFor(model => model[i].TenMonHocHocTruoc, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>*@
+                                            <td class="col-350">@Html.EditorFor(model => model[i].TenKhoaBoMon, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
+                                            <td>
+                                                @Html.EditorFor(model => model[i].TrangThai, new { htmlAttributes = new { @class = "form-control w-100" } })
+
+                                                @Html.HiddenFor(model => model[i].IDHocKi, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].IDAccount, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].IDMonHoc, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].LoaiDangKi, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].IDKhoaBoMon, new { htmlAttributes = new { @class = "form-control" } })
+                                                @*@Html.HiddenFor(model => model[i].IDHocPhanTienQuyet, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.HiddenFor(model => model[i].IDHocPhanHocTruoc, new { htmlAttributes = new { @class = "form-control" } })*@
+                                            </td>
+                                        </tr>
+                                        TongTC_chuongtrinhdaotao_tuchon = TongTC_chuongtrinhdaotao_tuchon + Model[i].SoTinChi;
+                                    }
+
+                                }
+                                if (TongTC_chuongtrinhdaotao_tuchon > 0)
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-right font-weight-bold">Cộng học phần Tự Chọn</td>
+                                        <td class="font-weight-bold ">@TongTC_chuongtrinhdaotao_tuchon</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            }
+                            //Mon hoc co diem chua dat
+                            if (ketquahoctap.Count() > 0)
+                            {
+                                <tr>
+                                    <th colspan="10">Học phần đã học nhưng chưa đạt</th>
+                                </tr>
+                                for (var i = 0; i < Model.Count; i++)
+                                {
+                                    if (Model[i].LoaiDangKi == 3)
+                                    {
+                                        stt = stt + 1;
+                                        <tr>
+                                            <td class="center">@stt</td>
+                                            <td class="col-120">@Html.EditorFor(model => model[i].MaMonHoc, new { htmlAttributes = new { @class = "custom-label w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-400">@Html.EditorFor(model => model[i].TenMonHoc, new { htmlAttributes = new { @class = "custom-label col-400 w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-55">@Html.EditorFor(model => model[i].SoTinChi, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-63">@Html.EditorFor(model => model[i].SoTietLyThuyet, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-63">@Html.EditorFor(model => model[i].SoTietThucHanh, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
+                                            <td></td>
+                                            <td></td>
+                                            @*<td class="col-350">@Html.EditorFor(model => model[i].TenMonHocTienQuyet, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
+                                <td class="col-350">@Html.EditorFor(model => model[i].TenMonHocHocTruoc, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>*@
+                                            <td class="col-350">@Html.EditorFor(model => model[i].TenKhoaBoMon, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
+                                            <td>
+                                                @Html.EditorFor(model => model[i].TrangThai, new { htmlAttributes = new { @class = "form-control w-100" } })
+
+                                                @Html.HiddenFor(model => model[i].IDHocKi, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].IDAccount, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].IDMonHoc, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].LoaiDangKi, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].IDKhoaBoMon, new { htmlAttributes = new { @class = "form-control" } })
+                                                @*@Html.HiddenFor(model => model[i].IDHocPhanTienQuyet, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.HiddenFor(model => model[i].IDHocPhanHocTruoc, new { htmlAttributes = new { @class = "form-control" } })*@
+                                            </td>
+                                        </tr>
+                                        TongTC_ketquahoctap = TongTC_ketquahoctap + Model[i].SoTinChi;
+                                    }
+
+                                }
+                                if (TongTC_ketquahoctap > 0)
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-right font-weight-bold">Cộng học phần đã học nhưng chưa đạt</td>
+                                        <td class="font-weight-bold ">@TongTC_ketquahoctap</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                }
+
+                            }
+                            //Mon hoc vuot
+                            if (monhocvuot.Count() > 0)
+                            {
+                                <tr>
+                                    <th colspan="10">Học Vượt</th>
+                                </tr>
+
+                                for (var i = 0; i < Model.Count; i++)
+                                {
+                                    if (Model[i].LoaiDangKi == 4)
+                                    {
+                                        stt = stt + 1;
+                                        <tr>
+                                            <td class="center">@stt</td>
+                                            <td class="col-120">@Html.EditorFor(model => model[i].MaMonHoc, new { htmlAttributes = new { @class = "custom-label w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-400">@Html.EditorFor(model => model[i].TenMonHoc, new { htmlAttributes = new { @class = "custom-label col-400 w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-55">@Html.EditorFor(model => model[i].SoTinChi, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-63">@Html.EditorFor(model => model[i].SoTietLyThuyet, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
+                                            <td class="col-63">@Html.EditorFor(model => model[i].SoTietThucHanh, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
+                                            <td></td>
+                                            <td></td>
+                                            @*<td class="col-350">@Html.EditorFor(model => model[i].TenMonHocTienQuyet, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
+                                <td class="col-350">@Html.EditorFor(model => model[i].TenMonHocHocTruoc, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>*@
+                                            <td class="col-350">@Html.EditorFor(model => model[i].TenKhoaBoMon, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
+                                            <td>
+                                                @Html.EditorFor(model => model[i].TrangThai, new { htmlAttributes = new { @class = "form-control w-100" } })
+
+                                                @Html.HiddenFor(model => model[i].IDHocKi, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].IDAccount, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].IDMonHoc, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].LoaiDangKi, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.HiddenFor(model => model[i].IDKhoaBoMon, new { htmlAttributes = new { @class = "form-control" } })
+                                                @*@Html.HiddenFor(model => model[i].IDHocPhanTienQuyet, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.HiddenFor(model => model[i].IDHocPhanHocTruoc, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        </tr>
+                                        TongTC_monhocvuot = TongTC_monhocvuot + Model[i].SoTinChi;
+                                    }
+                                }
+                                if (TongTC_monhocvuot > 0)
+                                {
+                                    <tr>
+                                        <td colspan="3" class="text-right font-weight-bold">Cộng học phần môn học vượt</td>
+                                        <td class="font-weight-bold">@TongTC_monhocvuot</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            }
+
+                            <div class="col-md-offset-2 col-md-10 px-0 py-2">
+                                <button class="btn btn-outline-success">
+                                    <i class="fas fa-check">
+                                        Lưu
+                                    </i>
+                                </button>
+                            </div>
+                            <p class="text-danger">@ViewBag.Error</p>
+                        }
                         <tr>
-                            <th colspan="10">@ViewBag.tenhocki</th>
+                            <th colspan="10">Tìm môn học vượt</th>
                         </tr>
-                        //Mon hoc bat buoc
-                        if (chuongtrinhdaotao_batbuoc.Count() > 0)
-                        {
-                            <tr>
-                                <th colspan="10">Bắt buộc</th>
-                            </tr>
-                            for (var i = 0; i < Model.Count; i++)
-                            {
-                                if (Model[i].LoaiDangKi == 1)
-                                {
-                                    stt = stt + 1;
-                                    <tr>
-                                        <td class="center">@stt</td>
-                                        <td class="col-120">@Html.EditorFor(model => model[i].MaMonHoc, new { htmlAttributes = new { @class = "custom-label w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-400">@Html.EditorFor(model => model[i].TenMonHoc, new { htmlAttributes = new { @class = "custom-label col-400 w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-55">@Html.EditorFor(model => model[i].SoTinChi, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-63">@Html.EditorFor(model => model[i].SoTietLyThuyet, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-63">@Html.EditorFor(model => model[i].SoTietThucHanh, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
-                                        <td></td>
-                                        <td></td>
-                                        @*<td class="col-350">@Html.EditorFor(model => model[i].TenMonHocTienQuyet, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
-                                            <td class="col-350">@Html.EditorFor(model => model[i].TenMonHocHocTruoc, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>*@
-                                        <td class="col-350">@Html.EditorFor(model => model[i].TenKhoaBoMon, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
-                                        <td>
-                                            @Html.EditorFor(model => model[i].TrangThai, new { htmlAttributes = new { @class = "form-control w-100" } })
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="text" id="txtMonHocVuot" class="form-control" />
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-info" id="btnTim_MonHocVuot">
+                                    <i class="fas fa-search">
+                                        Tìm
+                                    </i>
+                                </button>
+                            </td>
+                            <p class="text-danger">@ViewBag.Error</p>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
 
-                                            @Html.HiddenFor(model => model[i].IDHocKi, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].IDAccount, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].IDMonHoc, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].LoaiDangKi, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].IDKhoaBoMon, new { htmlAttributes = new { @class = "form-control" } })
-                                            @*@Html.HiddenFor(model => model[i].IDHocPhanTienQuyet, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.HiddenFor(model => model[i].IDHocPhanHocTruoc, new { htmlAttributes = new { @class = "form-control" } })*@
-                                        </td>
-                                    </tr>
-                                    TongTC_chuongtrinhdaotao_batbuoc = TongTC_chuongtrinhdaotao_batbuoc + Model[i].SoTinChi;
-                                }
-
-                            }
-                            if (TongTC_chuongtrinhdaotao_batbuoc > 0)
-                            {
-                                <tr>
-                                    <td colspan="3" class="text-right font-weight-bold">Cộng học phần Bắt buộc</td>
-                                    <td class="font-weight-bold ">@TongTC_chuongtrinhdaotao_batbuoc</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            }
-                        }
-                        //Mon hoc tu chon
-                        if (chuongtrinhdaotao_tuchon.Count() > 0)
-                        {
-                            <tr>
-                                <th colspan="10">Tự chọn</th>
-                            </tr>
-                            for (var i = 0; i < Model.Count; i++)
-                            {
-                                if (Model[i].LoaiDangKi == 2)
-                                {
-                                    stt = stt + 1;
-                                    <tr>
-                                        <td class="center">@stt</td>
-                                        <td class="col-120">@Html.EditorFor(model => model[i].MaMonHoc, new { htmlAttributes = new { @class = "custom-label w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-400">@Html.EditorFor(model => model[i].TenMonHoc, new { htmlAttributes = new { @class = "custom-label col-400 w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-55">@Html.EditorFor(model => model[i].SoTinChi, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-63">@Html.EditorFor(model => model[i].SoTietLyThuyet, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-63">@Html.EditorFor(model => model[i].SoTietThucHanh, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
-                                        <td></td>
-                                        <td></td>
-                                        @*<td class="col-350">@Html.EditorFor(model => model[i].TenMonHocTienQuyet, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
-                                            <td class="col-350">@Html.EditorFor(model => model[i].TenMonHocHocTruoc, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>*@
-                                        <td class="col-350">@Html.EditorFor(model => model[i].TenKhoaBoMon, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
-                                        <td>
-                                            @Html.EditorFor(model => model[i].TrangThai, new { htmlAttributes = new { @class = "form-control w-100" } })
-
-                                            @Html.HiddenFor(model => model[i].IDHocKi, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].IDAccount, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].IDMonHoc, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].LoaiDangKi, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].IDKhoaBoMon, new { htmlAttributes = new { @class = "form-control" } })
-                                            @*@Html.HiddenFor(model => model[i].IDHocPhanTienQuyet, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.HiddenFor(model => model[i].IDHocPhanHocTruoc, new { htmlAttributes = new { @class = "form-control" } })*@
-                                        </td>
-                                    </tr>
-                                    TongTC_chuongtrinhdaotao_tuchon = TongTC_chuongtrinhdaotao_tuchon + Model[i].SoTinChi;
-                                }
-
-                            }
-                            if (TongTC_chuongtrinhdaotao_tuchon > 0)
-                            {
-                                <tr>
-                                    <td colspan="3" class="text-right font-weight-bold">Cộng học phần Tự Chọn</td>
-                                    <td class="font-weight-bold ">@TongTC_chuongtrinhdaotao_tuchon</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            }
-                        }
-                        //Mon hoc co diem chua dat
-                        if (ketquahoctap.Count() > 0)
-                        {
-                            <tr>
-                                <th colspan="10">Học phần đã học nhưng chưa đạt</th>
-                            </tr>
-                            for (var i = 0; i < Model.Count; i++)
-                            {
-                                if (Model[i].LoaiDangKi == 3)
-                                {
-                                    stt = stt + 1;
-                                    <tr>
-                                        <td class="center">@stt</td>
-                                        <td class="col-120">@Html.EditorFor(model => model[i].MaMonHoc, new { htmlAttributes = new { @class = "custom-label w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-400">@Html.EditorFor(model => model[i].TenMonHoc, new { htmlAttributes = new { @class = "custom-label col-400 w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-55">@Html.EditorFor(model => model[i].SoTinChi, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-63">@Html.EditorFor(model => model[i].SoTietLyThuyet, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-63">@Html.EditorFor(model => model[i].SoTietThucHanh, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
-                                        <td></td>
-                                        <td></td>
-                                        @*<td class="col-350">@Html.EditorFor(model => model[i].TenMonHocTienQuyet, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
-                                            <td class="col-350">@Html.EditorFor(model => model[i].TenMonHocHocTruoc, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>*@
-                                        <td class="col-350">@Html.EditorFor(model => model[i].TenKhoaBoMon, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
-                                        <td>
-                                            @Html.EditorFor(model => model[i].TrangThai, new { htmlAttributes = new { @class = "form-control w-100" } })
-
-                                            @Html.HiddenFor(model => model[i].IDHocKi, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].IDAccount, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].IDMonHoc, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].LoaiDangKi, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].IDKhoaBoMon, new { htmlAttributes = new { @class = "form-control" } })
-                                            @*@Html.HiddenFor(model => model[i].IDHocPhanTienQuyet, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.HiddenFor(model => model[i].IDHocPhanHocTruoc, new { htmlAttributes = new { @class = "form-control" } })*@
-                                        </td>
-                                    </tr>
-                                    TongTC_ketquahoctap = TongTC_ketquahoctap + Model[i].SoTinChi;
-                                }
-
-                            }
-                            if (TongTC_ketquahoctap > 0)
-                            {
-                                <tr>
-                                    <td colspan="3" class="text-right font-weight-bold">Cộng học phần đã học nhưng chưa đạt</td>
-                                    <td class="font-weight-bold ">@TongTC_ketquahoctap</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            }
-
-                        }
-                        //Mon hoc vuot
-                        if (monhocvuot.Count() > 0)
-                        {
-                            <tr>
-                                <th colspan="10">Học Vượt</th>
-                            </tr>
-
-                            for (var i = 0; i < Model.Count; i++)
-                            {
-                                if (Model[i].LoaiDangKi == 4)
-                                {
-                                    stt = stt + 1;
-                                    <tr>
-                                        <td class="center">@stt</td>
-                                        <td class="col-120">@Html.EditorFor(model => model[i].MaMonHoc, new { htmlAttributes = new { @class = "custom-label w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-400">@Html.EditorFor(model => model[i].TenMonHoc, new { htmlAttributes = new { @class = "custom-label col-400 w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-55">@Html.EditorFor(model => model[i].SoTinChi, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-63">@Html.EditorFor(model => model[i].SoTietLyThuyet, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
-                                        <td class="col-63">@Html.EditorFor(model => model[i].SoTietThucHanh, new { htmlAttributes = new { @class = "custom-label col-55 w-100", @readonly = "readonly" } })</td>
-                                        <td></td>
-                                        <td></td>
-                                        @*<td class="col-350">@Html.EditorFor(model => model[i].TenMonHocTienQuyet, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
-                                            <td class="col-350">@Html.EditorFor(model => model[i].TenMonHocHocTruoc, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>*@
-                                        <td class="col-350">@Html.EditorFor(model => model[i].TenKhoaBoMon, new { htmlAttributes = new { @class = "custom-label col-350 w-100", @readonly = "readonly" } })</td>
-                                        <td>
-                                            @Html.EditorFor(model => model[i].TrangThai, new { htmlAttributes = new { @class = "form-control w-100" } })
-
-                                            @Html.HiddenFor(model => model[i].IDHocKi, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].IDAccount, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].IDMonHoc, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].LoaiDangKi, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.HiddenFor(model => model[i].IDKhoaBoMon, new { htmlAttributes = new { @class = "form-control" } })
-                                            @*@Html.HiddenFor(model => model[i].IDHocPhanTienQuyet, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.HiddenFor(model => model[i].IDHocPhanHocTruoc, new { htmlAttributes = new { @class = "form-control" } })*@
-                                    </tr>
-                                    TongTC_monhocvuot = TongTC_monhocvuot + Model[i].SoTinChi;
-                                }
-                            }
-                            if (TongTC_monhocvuot > 0)
-                            {
-                                <tr>
-                                    <td colspan="3" class="text-right font-weight-bold">Cộng học phần môn học vượt</td>
-                                    <td class="font-weight-bold">@TongTC_monhocvuot</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            }
-                        }
-
-                        <div class="col-md-offset-2 col-md-10 px-0 py-2">
-                            <button class="btn btn-outline-success">
-                                <i class="fas fa-check">
-                                    Lưu
-                                </i>
-                            </button>
-                        </div>
                     }
-                    <tr>
-                        <th colspan="10">Tìm môn học vượt</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <input type="text" id="txtMonHocVuot" class="form-control" />
-                        </td>
-                        <td>
-                            <button class="btn btn-outline-info" id="btnTim_MonHocVuot">
-                                <i class="fas fa-search">
-                                    Tìm
-                                </i>
-                            </button>
-                        </td>
-                        <p class="text-danger">@ViewBag.Error</p>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+
+
                 </table>
 
             </div>
@@ -381,6 +387,18 @@
         window.onload = function () {
             swal({
                 title: "Trùng Data",
+                text: "",
+                icon: "warning",
+            })
+        }
+    </script>
+}
+@if (ViewBag.Errorthoigiandangki != null)
+{
+    <script>
+        window.onload = function () {
+            swal({
+                title: "Chưa đến thời gian mở đăng kí",
                 text: "",
                 icon: "warning",
             })
