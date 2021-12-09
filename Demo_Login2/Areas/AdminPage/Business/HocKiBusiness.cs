@@ -65,6 +65,40 @@ namespace Demo_Login2.Areas.AdminPage.Business
                 throw;
             }
         }
+        public int CheckLoiHocKiDaTonTai_ChuongTrinhDaoTao_Moi(int? id)
+        {
+            try
+            {
+                return model.ChuongTrinhDaoTao_Mois.Where(s => s.IDHocKi == id).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public int CheckLoiHocKiDaTonTai_KeHoachHocTap_Moi(int? id)
+        {
+            try
+            {
+                return model.KeHoachHocTap_Mois.Where(s => s.IDHocKi == id).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public int CheckLoiSinhVienDangKiKeHoachHocTap_Moi(int? id)
+        {
+            try
+            {
+                return model.SinhVienDangKiKeHoachHocTaps.Where(s => s.IDHocKi == id).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public List<HocKiDTO> LayDanhSachHocKi()
         {
             try

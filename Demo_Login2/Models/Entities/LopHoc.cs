@@ -18,6 +18,8 @@ namespace Demo_Login2.Models.Entities
         public string GhiChu { get; set; }
         public ICollection<AccountLopHoc> AccountLopHocs_IDLopHoc { get; set; }
         public ICollection<SinhVienLopHoc> SinhVienLopHocs_IDLopHoc { get; set; }
+        public ICollection<MonHocSinhVienDangKi> MonHocSinhVienDangKis_IDLopHoc { get; set; }
+        public ICollection<SinhVienDangKiKeHoachHocTap> SinhVienDangKiKeHoachHocTaps_IDLopHoc { get; set; }
     }
         
 }

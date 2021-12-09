@@ -13,7 +13,7 @@ namespace Demo_Login2.Areas.GiangVienPage.Controllers
         // GET: LayDanhSachChuongTrinhDaoTao
         public ActionResult Index()
         {
-            var lstctrdaotao = LayDanhSachChuongTrinhDaoTaoTheoKhoa(0);
+            var lstctrdaotao = this.LayDanhSachChuongTrinhDaoTao_Moi_TheoKhoaDaoTao(0);
             ViewBag.HocKi = LayDanhSachHocKi();
             ViewBag.PhanLoaiMonHoc = LayDanhSachPhanLoaiMonHoc();
             ViewBag.MonHoc = LayDanhSachMonHoc();
@@ -22,7 +22,7 @@ namespace Demo_Login2.Areas.GiangVienPage.Controllers
             listkhoaDT.Insert(0, new KhoaDaoTaoDTO
             {
                 ID = 0,
-                TenKhoaDaoTao = "Tất cả"
+                TenKhoaDaoTao = "Chọn Khóa Đào Tạo Tạo"
             });
             ViewData["khoaDT"] = new SelectList(listkhoaDT, "ID", "TenKhoaDaoTao");
             return View(lstctrdaotao);
@@ -32,7 +32,7 @@ namespace Demo_Login2.Areas.GiangVienPage.Controllers
         [HttpPost]
         public ActionResult Index(int id)
         {
-            var lstctrdaotao = this.LayDanhSachChuongTrinhDaoTaoTheoKhoa(id);
+            var lstctrdaotao = this.LayDanhSachChuongTrinhDaoTao_Moi_TheoKhoaDaoTao(id);
             ViewBag.HocKi = LayDanhSachHocKi();
             ViewBag.PhanLoaiMonHoc = LayDanhSachPhanLoaiMonHoc();
             ViewBag.MonHoc = LayDanhSachMonHoc();
@@ -41,17 +41,17 @@ namespace Demo_Login2.Areas.GiangVienPage.Controllers
             listkhoaDT.Insert(0, new KhoaDaoTaoDTO
             {
                 ID = 0,
-                TenKhoaDaoTao = "Tất cả Khóa"
+                TenKhoaDaoTao = "Chọn Khóa Đào Tạo Tạo"
             });
             ViewData["khoaDT"] = new SelectList(listkhoaDT, "ID", "TenKhoaDaoTao");
             return View(lstctrdaotao);
         }
 
-        public List<ChuongTrinhDaoTaoDTO> LayDanhSachChuongTrinhDaoTaoTheoKhoa(int id)
+        public List<ChuongTrinhDaoTao_MoiDTO> LayDanhSachChuongTrinhDaoTao_Moi_TheoKhoaDaoTao(int id)
         {
-            using (ChuongTrinhDaoTaoBusiness bs = new ChuongTrinhDaoTaoBusiness())
+            using (ChuongTrinhDaoTao_MoiBusiness bs = new ChuongTrinhDaoTao_MoiBusiness())
             {
-                return bs.LayDanhSachChuongTrinhDaoTaoTheoKhoa(id);
+                return bs.LayDanhSachChuongTrinhDaoTao_Moi_TheoKhoaDaoTao(id);
             }
         }
 

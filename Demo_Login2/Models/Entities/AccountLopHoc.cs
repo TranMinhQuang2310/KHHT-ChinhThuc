@@ -12,6 +12,7 @@ namespace Demo_Login2.Models.Entities
         [Key]
         public int ID { get; set; }
         public int  Name { get; set; }
+        public string Ma { get; set; }
         public int? IDLopHoc { get; set; }
         [ForeignKey("IDLopHoc")]
         public LopHoc LopHoc { get; set; }

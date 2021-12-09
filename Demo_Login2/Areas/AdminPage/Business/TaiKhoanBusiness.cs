@@ -166,6 +166,18 @@ namespace Demo_Login2.Areas.AdminPage.Business
             }
         }
 
+        public int CheckLoiSinhVienDangKiKeHoachHocTap_Moi(int? id)
+        {
+            try
+            {
+                return model.SinhVienDangKiKeHoachHocTaps.Where(s => s.IDAccount == id).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public int LayMailDaTonTai(string mailvl)
         {
             try
@@ -314,6 +326,118 @@ namespace Demo_Login2.Areas.AdminPage.Business
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public int? LayLopHocChoTaiKhoan_SV(string mailvl)
+        {
+            try
+            {
+                var idAccount = model.Accounts.Where(s => s.MailVL == mailvl).Select(s => s.ID).FirstOrDefault();
+                return model.SinhVienLopHocs.Where(s => s.IDAccount == idAccount).Select(s => s.IDLopHoc).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public int? LayLopHocChoTaiKhoan_ChuNhiem(string mailvl)
+        {
+            try
+            {
+                var idAccount = model.Accounts.Where(s => s.MailVL == mailvl).Select(s => s.ID).FirstOrDefault();
+                return model.AccountLopHocs.Where(s => s.IDAccount == idAccount).Select(s => s.IDLopHoc).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<AccountDTO> LayDanhSachSinhVienTheoKhoaDaoTao(int idKhoaDT)
+        {
+            try
+            {
+                var lstsvkhoaDT = model.SinhVienLopHocs.Where(s => s.LopHoc.IDKhoaDaoTao == idKhoaDT).Select(s => new AccountDTO
+                {
+                    ID = s.Account.ID,
+                    Ma = s.Account.Ma,
+                    HoVaTen = s.Account.HoVaTen,
+                    MailVL = s.Account.MailVL,
+                    PhanLoai = s.Account.PhanLoai,
+                    DaXem = s.Account.DaXem,
+                    GhiChu = s.Account.GhiChu
+                }).ToList();
+                return lstsvkhoaDT;
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<AccountDTO> LayDanhSachSinhVien()
+        {
+            try
+            {
+                var lstsvkhoaDT = model.SinhVienLopHocs.Select(s => new AccountDTO
+                {
+                    ID = s.Account.ID,
+                    Ma = s.Account.Ma,
+                    HoVaTen = s.Account.HoVaTen,
+                    MailVL = s.Account.MailVL,
+                    PhanLoai = s.Account.PhanLoai,
+                    DaXem = s.Account.DaXem,
+                    GhiChu = s.Account.GhiChu
+                }).ToList();
+                return lstsvkhoaDT;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<AccountDTO> LayDanhSachSinhVienTheoLopHoc(int idlop)
+        {
+            try
+            {
+                var lstsvkhoaDT = model.SinhVienLopHocs.Where(s => s.IDLopHoc == idlop).Select(s => new AccountDTO
+                {
+                    ID = s.Account.ID,
+                    Ma = s.Account.Ma,
+                    HoVaTen = s.Account.HoVaTen,
+                    MailVL = s.Account.MailVL,
+                    PhanLoai = s.Account.PhanLoai,
+                    DaXem = s.Account.DaXem,
+                    GhiChu = s.Account.GhiChu
+                }).ToList();
+                return lstsvkhoaDT;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<AccountDTO> LayDanhSachSinhVienTheoLopChuNhiem(int idLopHoc)
+        {
+            try
+            {
+                var lstsvlophoc = model.SinhVienLopHocs.Where(s => s.IDLopHoc == idLopHoc).Select(s => new AccountDTO
+                {
+                    ID = s.Account.ID,
+                    Ma = s.Account.Ma,
+                    HoVaTen = s.Account.HoVaTen,
+                    MailVL = s.Account.MailVL,
+                    PhanLoai = s.Account.PhanLoai,
+                    DaXem = s.Account.DaXem,
+                    GhiChu = s.Account.GhiChu
+                }).ToList();
+                return lstsvlophoc;
+            }catch(Exception ex)
+            {
+                throw ex;
             }
         }
 

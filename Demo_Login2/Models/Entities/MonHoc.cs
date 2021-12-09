@@ -33,6 +33,9 @@ namespace Demo_Login2.Models.Entities
         public ICollection<HocPhanHocTruoc> HocPhanHocTruocs_IDMonHoc { get; set; }
         public ICollection<KetQuaHocTap> KetQuaHocTaps_IDMonHoc { get; set; }
         public ICollection<MonHocSinhVienDangKi> MonHocSinhVienDangKis_IDMonHoc { get; set; }
+        public ICollection<ChuongTrinhDaoTao_Moi> ChuongTrinhDaoTao_Mois_IDMonHoc { get; set; }
+        public ICollection<KeHoachHocTap_Moi> KeHoachHocTap_Mois_IDMonHoc { get; set; }
+        public ICollection<SinhVienDangKiKeHoachHocTap> SinhVienDangKiKeHoachHocTaps_IDMonHoc { get; set; }
         //public ICollection<HocPhanTienQuyet2> HocPhanTienQuyet2s_IDMonHoc { get; set; }
     }
 }

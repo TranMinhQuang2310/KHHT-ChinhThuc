@@ -23,8 +23,9 @@ namespace Demo_Login2.Controllers
             HttpCookie mailvl = new HttpCookie("mailvl");
             mailvl.Value = mail;
             mailvl.Expires = DateTime.Now.AddDays(1);
-
             Response.SetCookie(mailvl);
+
+            //Session["mailvl"] = mail;
 
             //Console.WriteLine(ma);
             using (TaiKhoanBusiness tk = new TaiKhoanBusiness())
@@ -33,12 +34,16 @@ namespace Demo_Login2.Controllers
                 if (loai == 1)
                 {
                     var KhoaDaoTao = tk.LayKhoaDaoTaoChoTaiKhoan(mail);
+
                     var idAccount = tk.LayIDChoTaiKhoan(mail);
+
+                    var idLopHoc = tk.LayLopHocChoTaiKhoan_SV(mail);
 
                     HttpCookie idKhoaDaoTao = new HttpCookie("idKhoaDaoTao");
                     idKhoaDaoTao.Value = KhoaDaoTao.ToString();
                     idKhoaDaoTao.Expires = DateTime.Now.AddDays(1);
                     Response.SetCookie(idKhoaDaoTao);
+                    //Session["idKhoaDaoTao"] = KhoaDaoTao; 
 
                     HttpCookie loaiTK = new HttpCookie("loai");
                     loaiTK.Value = "Sinh Viên";
@@ -50,10 +55,24 @@ namespace Demo_Login2.Controllers
                     idaccount.Expires = DateTime.Now.AddDays(1);
                     Response.SetCookie(idaccount);
 
+                    HttpCookie idlophoc = new HttpCookie("idLopHoc");
+                    idlophoc.Value = idLopHoc.ToString();
+                    idlophoc.Expires = DateTime.Now.AddDays(1);
+                    Response.SetCookie(idlophoc);
+
                     return RedirectToAction("Index", "ChuongTrinhDaoTao", new { area = "SinhVienPage" });
                 }
                 else if (loai == 2)
                 {
+                    var idLop = tk.LayLopHocChoTaiKhoan_ChuNhiem(mail);
+
+                    HttpCookie idlop = new HttpCookie("idLopChuNhiem");
+                    idlop.Value = idLop.ToString();
+                    idlop.Expires = DateTime.Now.AddDays(1);
+                    Response.SetCookie(idlop);
+
+                    //Session["idLopChuNhiem"] = idLop;
+
                     HttpCookie loaiTK = new HttpCookie("loai");
                     loaiTK.Value = "Giảng Viên";
                     loaiTK.Expires = DateTime.Now.AddDays(1);

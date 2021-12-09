@@ -38,7 +38,13 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
         public async Task<ActionResult> Create(KhoaBoMonDTO khoabm)
         {
             var id = LayKhoaBoMonDaTonTai(khoabm.TenKhoaBoMon);
-            if(id > 0)
+            var resultkhoaBM = LayYeuCauNhapKhoaBoMon(khoabm);
+            if (resultkhoaBM == false)
+            {
+                ViewBag.ErrorkhoaBM = "Yêu cầu nhập các trường bắt buộc";
+                return View();
+            }
+            else if (id > 0)
             {
                 ViewBag.Error = "Khoa Bộ Môn đã tồn tại";
                 return View();
@@ -46,6 +52,7 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             else
             {
                 ThemKhoaBoMon(khoabm);
+                TempData["Success"] = "Thành công";
                 return RedirectToAction("Index");
             }
         }
@@ -57,6 +64,16 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
                 return bs.LayKhoaBoMonDaTonTai(tenkhoa);
             }
         }
+
+        public bool LayYeuCauNhapKhoaBoMon(KhoaBoMonDTO khoabm)
+        {
+            if(khoabm.TenKhoaBoMon == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public bool ThemKhoaBoMon(KhoaBoMonDTO khoabm)
         {
             using (KhoaBoMonBusiness bs = new KhoaBoMonBusiness())
@@ -78,10 +95,17 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
         public async Task<ActionResult> Edit(KhoaBoMonDTO khoabm)
         {
             var id = LayKhoaBoMonDaTonTai(khoabm.TenKhoaBoMon);
-            if(id == khoabm.ID || id == 0)
+            var resultkhoaBM = LayYeuCauNhapKhoaBoMon(khoabm);
+            if (id == khoabm.ID || id == 0 && resultkhoaBM == true)
             {
                 SuaKhoaBoMon(khoabm);
+                TempData["Success"] = "Thành công";
                 return RedirectToAction("Index");
+            }
+            if (resultkhoaBM == false)
+            {
+                ViewBag.ErrorkhoaBM = "Yêu cầu nhập các trường bắt buộc";
+                return View();
             }
             else
             {
@@ -106,13 +130,17 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             }
         }
 
-        //XoaKhoaBoMon
+        //Xóa Tên Khoa Bộ Môn khỏi danh sách
         public async Task<ActionResult> Delete(int id)
         {
+            //Kiểm tra Tên Khoa Bộ Môn có tồn tại(có liên kết với bảng khác không)
             var findkhoabm = CheckLoiKhoaBoMonDaTonTai(id);
-            if(findkhoabm > 0)
+            //Nếu có tồn tại
+            if (findkhoabm > 0)
             {
+                //Thông báo lỗi
                 TempData["error"] = "lỗi";
+                //Chuyển hướng về lại trang Index
                 return RedirectToAction("Index");
             }
             else
@@ -120,6 +148,7 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
                 var output = XoaKhoaBoMon(id);
                 if (output)
                 {
+                    TempData["Success"] = "Thành công";
                     return RedirectToAction("Index");
                 }
                 else

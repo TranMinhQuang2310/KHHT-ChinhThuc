@@ -18,6 +18,15 @@ namespace Demo_Login2.Models.Entities
         public int? IDHocKi { get; set; }
         [ForeignKey("IDHocKi")]
         public HocKi HocKi { get; set; }
+
+        public int? IDKhoaDaoTao { get; set; }
+        [ForeignKey("IDKhoaDaoTao")]
+        public KhoaDaoTao KhoaDaoTao { get; set; }
+
+        public int? IDLopHoc { get; set; }
+        [ForeignKey("IDLopHoc")]
+        public LopHoc LopHoc { get; set; }
+
         public int? IDHocPhanTienQuyet { get; set; }
         [ForeignKey("IDHocPhanTienQuyet")]
         public HocPhanTienQuyet HocPhanTienQuyet { get; set; }
@@ -26,5 +35,7 @@ namespace Demo_Login2.Models.Entities
         public HocPhanHocTruoc HocPhanHocTruoc { get; set; }
         public int LoaiDangKi { get; set; }
         public bool TrangThai { get; set; }
+
+        public int ChoPhepDangKi { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
 {
     public class MonHocSinhVienDangKiController : Controller
     {
+        //BỎ PHẦN NÀY
         //GET: SinhVienPage/MonHocSinhVienDangKi
         public ActionResult Index()
         {
@@ -20,22 +21,26 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
             var idAccount = Convert.ToInt32(idAcc.Value);
 
             int idHocKi = getHocKiChoSVDangKi(idKhoaDT);
+            //int idHocKi = 3;
             ViewBag.tenhocki = LayTenHocKi(idHocKi);
+
+            HttpCookie idlophoc = HttpContext.Request.Cookies.Get("idLopHoc");
+            var idLopHoc = Convert.ToInt32(idlophoc.Value);
             
 
             var result = Mo_TrangThaiDangKiMonHoc(idKhoaDT, idHocKi);
 
-            var lstmonhocsvdk = this.LayMonHocSinhVienDangKi(0,0,0);
+            var lstmonhocsvdk = this.LayMonHocSinhVienDangKi(0,0,0,0);
             if(result == true)
             {
-                lstmonhocsvdk = LayMonHocSinhVienDangKi(idKhoaDT, idAccount, idHocKi);
+                lstmonhocsvdk = LayMonHocSinhVienDangKi(idKhoaDT, idAccount, idHocKi,idLopHoc);
             }
             else
             {
                 ViewBag.Errorthoigiandangki = "Chưa đến thời gian mở đăng kí";
             }
             
-
+             
             return View(lstmonhocsvdk);
         }
         [HttpPost]
@@ -51,7 +56,10 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
             int idHocKi = getHocKiChoSVDangKi(idKhoaDT);
             ViewBag.tenhocki = LayTenHocKi(idHocKi);
 
-            foreach(var item in list)
+            HttpCookie idlophoc = HttpContext.Request.Cookies.Get("idLopHoc");
+            var idLopHoc = Convert.ToInt32(idlophoc.Value);
+
+            foreach (var item in list)
             {
                 var hethanthoigiandangki = Check_TrangThaiMonHocQuaThoiGianDangKi(idKhoaDT, Convert.ToInt32(item.IDHocKi));
                 if(hethanthoigiandangki == true)
@@ -76,10 +84,10 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
 
             var result = Mo_TrangThaiDangKiMonHoc(idKhoaDT, idHocKi);
 
-            var lstmonhocsvdk = this.LayMonHocSinhVienDangKi(0, 0, 0);
+            var lstmonhocsvdk = this.LayMonHocSinhVienDangKi(0, 0, 0,0);
             if (result == true)
             {
-                lstmonhocsvdk = LayMonHocSinhVienDangKi(idKhoaDT, idAccount, idHocKi);
+                lstmonhocsvdk = LayMonHocSinhVienDangKi(idKhoaDT, idAccount, idHocKi,idLopHoc);
             }
             else
             {
@@ -114,7 +122,11 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
             var idAccount = Convert.ToInt32(IDAcc.Value);
 
             int idHocKi = getHocKiChoSVDangKi(idKhoaDT);
-            var lstmonhocvuotsvdk = this.LayMonHocSinhVienDangKi(idKhoaDT, idAccount, idHocKi);
+
+            HttpCookie idlophoc = HttpContext.Request.Cookies.Get("idLopHoc");
+            var idLopHoc = Convert.ToInt32(idlophoc.Value);
+
+            var lstmonhocvuotsvdk = this.LayMonHocSinhVienDangKi(idKhoaDT, idAccount, idHocKi,idLopHoc);
             var monhocvuot = LayMonHocVuotTheoMa(id);
 
 
@@ -145,7 +157,9 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
                     LoaiDangKi = 4,
                     TrangThai = false,
                     IDHocKi = idHocKi,
-                    IDAccount = idAccount
+                    IDAccount = idAccount,
+                    IDKhoaDaoTao = idKhoaDT,
+                    IDLopHoc = idLopHoc
                 });
                 return View("Index", lstmonhocvuotsvdk);
             }
@@ -161,11 +175,11 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
 
         }
 
-        public List<MonHocSinhVienDangKiDTO> LayMonHocSinhVienDangKi(int idkhoadt,int idaccount,int idhocki)
+        public List<MonHocSinhVienDangKiDTO> LayMonHocSinhVienDangKi(int idkhoadt,int idaccount,int idhocki,int idlophoc)
         {
             using(MonHocSinhVienDangKiBusiness bs = new MonHocSinhVienDangKiBusiness())
             {
-                return bs.LayMonHocSinhVienDangKi(idkhoadt, idaccount,idhocki);
+                return bs.LayMonHocSinhVienDangKi(idkhoadt, idaccount,idhocki,idlophoc);
             }
         }
 

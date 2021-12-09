@@ -13,17 +13,17 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
         // GET: LayDanhSachChuongTrinhDaoTao
         public ActionResult Index()
         {
-            var lstctrdaotao = this.LayDanhSachChuongTrinhDaoTaoTheoKhoa(0);
+            var lstctrdaotao = this.LayDanhSachChuongTrinhDaoTaoTheoKhoa(1);
             ViewBag.HocKi = LayDanhSachHocKi();
             ViewBag.PhanLoaiMonHoc = LayDanhSachPhanLoaiMonHoc();
             ViewBag.MonHoc = LayDanhSachMonHoc();
 
             var listkhoaDT = LayDanhSachKhoaDaoTao();
-            listkhoaDT.Insert(0, new KhoaDaoTaoDTO
-            {
-                ID = 0,
-                TenKhoaDaoTao = "Tất cả Khóa"
-            });
+            //listkhoaDT.Insert(0, new KhoaDaoTaoDTO
+            //{
+            //    ID = 0,
+            //    TenKhoaDaoTao = "Tất cả Khóa"
+            //});
             ViewData["khoaDT"] = new SelectList(listkhoaDT, "ID", "TenKhoaDaoTao");
             return View(lstctrdaotao);
         }
@@ -38,11 +38,11 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             ViewBag.MonHoc = LayDanhSachMonHoc();
 
             var listkhoaDT = LayDanhSachKhoaDaoTao();
-            listkhoaDT.Insert(0, new KhoaDaoTaoDTO
-            {
-                ID = 0,
-                TenKhoaDaoTao = "Tất cả Khóa"
-            });
+            //listkhoaDT.Insert(0, new KhoaDaoTaoDTO
+            //{
+            //    ID = 0,
+            //    TenKhoaDaoTao = "Tất cả Khóa"
+            //});
             ViewData["khoaDT"] = new SelectList(listkhoaDT, "ID", "TenKhoaDaoTao");
             return View(lstctrdaotao);
         }

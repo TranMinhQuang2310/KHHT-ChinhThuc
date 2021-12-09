@@ -19,6 +19,7 @@ namespace Demo_Login2.Areas.AdminPage.Business
                     IDAccount = s.IDAccount,
                     IDLopHoc = s.IDLopHoc,
                     Name = s.Name,
+                    Ma = s.Ma,
                     IsDisable = s.IsDisabled,
                     GhiChu = s.GhiChu
                 }).FirstOrDefault();
@@ -64,6 +65,7 @@ namespace Demo_Login2.Areas.AdminPage.Business
                     IDAccount = s.IDAccount,
                     IDLopHoc = s.IDLopHoc,
                     Name = s.Name,
+                    Ma = s.Ma,
                     IsDisable = s.IsDisabled,
                     GhiChu = s.GhiChu
                 }).ToList();
@@ -88,12 +90,13 @@ namespace Demo_Login2.Areas.AdminPage.Business
                         IDAccount = s.IDAccount,
                         IDLopHoc = s.IDLopHoc,
                         Name = s.Name,
+                        Ma = s.Ma,
                         IsDisable = s.IsDisabled,
                         GhiChu = s.GhiChu
                     }).ToList();
                     return listAcclop;
                 }
-                else 
+                else
                 {
                     var listAcclop = model.AccountLopHocs.Where(s => s.LopHoc.KhoaDaoTao.ID == id).Select(s => new AccountLopHocDTO
                     {
@@ -105,8 +108,9 @@ namespace Demo_Login2.Areas.AdminPage.Business
                         GhiChu = s.GhiChu
                     }).ToList();
                     return listAcclop;
-                }
-            }catch(Exception ex)
+                }               
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -116,11 +120,8 @@ namespace Demo_Login2.Areas.AdminPage.Business
             try
             {
                 var newacclop = new AccountLopHoc();
-                newacclop.ID = acclop.ID;
                 newacclop.IDAccount = acclop.IDAccount;
-                newacclop.IDLopHoc = acclop.IDLopHoc;
-                newacclop.Name = acclop.Name;
-                newacclop.IsDisabled = acclop.IsDisable;
+                newacclop.IDLopHoc = acclop.IDLopHoc;               
                 newacclop.GhiChu = acclop.GhiChu;
                 model.AccountLopHocs.Add(newacclop);
                 model.SaveChanges();
@@ -157,6 +158,7 @@ namespace Demo_Login2.Areas.AdminPage.Business
                 accoutlop.IDAccount = acclop.IDAccount;
                 accoutlop.IDLopHoc = acclop.IDLopHoc;
                 accoutlop.Name = acclop.Name;
+                accoutlop.Ma = acclop.Ma;
                 accoutlop.IsDisabled = acclop.IsDisable;
                 accoutlop.GhiChu = acclop.GhiChu;
                 model.SaveChanges();
@@ -168,6 +170,66 @@ namespace Demo_Login2.Areas.AdminPage.Business
                 throw;
             }
         }
+
+        public int LayIDAccountTheoMa(string magiangvien)
+        {
+            try
+            {
+                return model.Accounts.Where(s => s.Ma == magiangvien && s.PhanLoai == 2).Select(s => s.ID).FirstOrDefault();
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public int LayIDLopHocTheoTen(string lophoc)
+        {
+            try
+            {
+                return model.LopHocs.Where(s => s.TenLop == lophoc).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public int Check_TaiKhoanTonTai(int idAccount)
+        {
+            try
+            {
+                var check = model.AccountLopHocs.Where(s => s.IDAccount == idAccount).Select(s => s.ID).FirstOrDefault();
+                return check;
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int Check_LopHocTonTai(int idLopHoc)
+        {
+            try
+            {
+                var check = model.AccountLopHocs.Where(s => s.IDLopHoc == idLopHoc).Select(s => s.ID).FirstOrDefault();
+                return check;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //public int LayIDAccountTheoMail(string mailvl)
+        //{
+        //    try
+        //    {
+        //        return model.Accounts.Where(s => s.MailVL == mailvl).Select(s => s.ID).FirstOrDefault();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
     }
 }

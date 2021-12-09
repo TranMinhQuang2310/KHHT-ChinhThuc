@@ -37,7 +37,13 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
         public async Task<ActionResult> Create(PhanLoaiHocKiDTO phanloaihocki)
         {
             var id = LayPhanLoaiHocKiDaTonTai(phanloaihocki.LoaiHocKi);
-            if(id > 0)
+            var resultloaiHK = LayYeuCauNhapLoaiHocKi(phanloaihocki);
+            if(resultloaiHK == false)
+            {
+                ViewBag.ErrorloaiHK = "Yêu cầu nhập các trường bắt buộc";
+                return View();
+            }
+            else if(id > 0)
             {
                 ViewBag.Message = "Loại Học Kì đã tồn tại";
                 return View();
@@ -45,6 +51,7 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             else
             {
                 ThemPhanLoaiHocKi(phanloaihocki);
+                TempData["Success"] = "Thành công";
                 return RedirectToAction("Index");
             }
         }
@@ -76,11 +83,19 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
         public async Task<ActionResult> Edit(PhanLoaiHocKiDTO phanloaihocki)
         {
             var id = LayPhanLoaiHocKiDaTonTai(phanloaihocki.LoaiHocKi);
-            if (id == phanloaihocki.ID || id == 0)
+            var resultloaiHK = LayYeuCauNhapLoaiHocKi(phanloaihocki);
+            
+            if (id == phanloaihocki.ID || id == 0 && resultloaiHK == true)
             {
                 SuaPhanLoaiHocKi(phanloaihocki);
+                TempData["Success"] = "Thành công";
                 return RedirectToAction("Index");
 
+            }
+            else if (resultloaiHK == false)
+            {
+                ViewBag.ErrorloaiHK = "Yêu cầu nhập các trường bắt buộc";
+                return View();
             }
             else
             {
@@ -95,6 +110,15 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             {
                 return bs.LayPhanLoaiHocKi(id);
             }
+        }
+
+        public bool LayYeuCauNhapLoaiHocKi(PhanLoaiHocKiDTO phanloai)
+        {
+            if(phanloai.LoaiHocKi == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool SuaPhanLoaiHocKi(PhanLoaiHocKiDTO phanloaihocki)
@@ -119,6 +143,7 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
                 var output = XoaPhanLoaiHocKi(id);
                 if (output)
                 {
+                    TempData["Success"] = "Thành công";
                     return RedirectToAction("Index");
                 }
                 else

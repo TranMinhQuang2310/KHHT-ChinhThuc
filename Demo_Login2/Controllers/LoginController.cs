@@ -21,6 +21,7 @@ namespace Demo_Login2.Controllers
             if (!Request.IsAuthenticated)
             {
                 HttpContext.GetOwinContext().Authentication.Challenge(
+                    //new AuthenticationProperties { RedirectUri = "/CP23Team5/PhanQuyen/Index" },
                     new AuthenticationProperties { RedirectUri = "/PhanQuyen/Index" },
                     OpenIdConnectAuthenticationDefaults.AuthenticationType);
 

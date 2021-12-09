@@ -47,7 +47,7 @@ namespace Demo_Login2.Areas.GiangVienPage.Business
         {
             try
             {
-                if(id == 0)
+                if (id == 0)
                 {
                     var lstctrdaotao = model.MonHocKhoaDaoTaos.Select(s => new ChuongTrinhDaoTaoDTO
                     {
@@ -75,7 +75,8 @@ namespace Demo_Login2.Areas.GiangVienPage.Business
                     }).ToList();
                     return lstctrdaotao;
                 }
-                else {
+                else
+                {
                     var lstctrdaotao = model.MonHocKhoaDaoTaos.Where(s => s.IDKhoaDaoTao == id).Select(s => new ChuongTrinhDaoTaoDTO
                     {
                         ID = s.ID,
@@ -102,10 +103,52 @@ namespace Demo_Login2.Areas.GiangVienPage.Business
                     }).ToList();
                     return lstctrdaotao;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
+
+        public List<ChuongTrinhDaoTao_MoiDTO> LayDanhSachChuongTrinhDaoTao_Moi_TheoKhoaDaoTao(int id)
+        {
+            try
+            {
+                var lstctrdaotao = model.ChuongTrinhDaoTao_Mois.Where(s => s.IDKhoaDaoTao == id).Select(s => new ChuongTrinhDaoTao_MoiDTO
+                {
+                    ID = s.ID,
+                    IDMonHoc = s.IDMonHoc,
+                    MaMonHoc = s.MonHoc.MaMonHoc,
+                    TenMonHoc = s.MonHoc.TenMonHoc,
+                    SoTinChi = s.SoTinChi,
+
+                    IDKhoaDaoTao = s.IDKhoaDaoTao,
+                    TenKhoaDaoTao = s.KhoaDaoTao.TenKhoaDaoTao,
+
+                    IDHocKi = s.IDHocKi,
+                    TenHocKi = s.HocKi.TenHocKi,
+
+                    IDPhanLoaiMonHoc = s.IDPhanLoaiMonHoc,
+                    LoaiMonHoc = s.PhanLoaiMonHoc.LoaiMonHoc,
+
+                    //IDHocPhanTienQuyet = s.IDHocPhanTienQuyet,
+                    //TenMonHocTienQuyet = s.HocPhanTienQuyet.MonHocTienQuyet.TenMonHoc,
+
+                    //IDHocPhanHocTruoc = s.IDHocPhanHocTruoc,
+                    //TenMonHocHocTruoc = s.HocPhanHocTruoc.MonHocHocTruoc.TenMonHoc,
+
+                    IDKhoaBoMon = s.MonHoc.IDKhoaBoMon,
+                    TenKhoaBoMon = s.MonHoc.KhoaBoMon.TenKhoaBoMon,
+
+                }).ToList();
+                return lstctrdaotao;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
     }
 }

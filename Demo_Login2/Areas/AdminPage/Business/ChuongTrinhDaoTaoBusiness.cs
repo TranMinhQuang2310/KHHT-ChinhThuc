@@ -44,11 +44,12 @@ namespace Demo_Login2.Areas.AdminPage.Business
             
         }
 
+
         public List<ChuongTrinhDaoTaoDTO> LayDanhSachChuongTrinhDaoTaoTheoKhoa(int id)
         {
             try
             {
-                if(id == 0)
+                if (id == 0)
                 {
                     var lstctrdaotao = model.MonHocKhoaDaoTaos.Select(s => new ChuongTrinhDaoTaoDTO
                     {
@@ -104,7 +105,8 @@ namespace Demo_Login2.Areas.AdminPage.Business
                     }).ToList();
                     return lstctrdaotao;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

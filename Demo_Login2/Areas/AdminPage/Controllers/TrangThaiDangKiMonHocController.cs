@@ -97,7 +97,14 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
                 trangthaidangki.TrangThai = false;
             }
             //bat loi mo dang ki mon hoc
-            if (id > 0)
+            if (trangthaidangki.ThoiGianBatDau == null || trangthaidangki.ThoiGianKetThuc == null)
+            {
+                ViewBag.Errorkhongnhapthoigian = "Thời gian bắt đầu hoặc kết thúc không được để trống";
+                ViewData["khoaDT"] = new SelectList(LayDanhSachKhoaDaoTao(), "ID", "TenKhoaDaoTao");
+                ViewData["hocki"] = new SelectList(LayDanhSachHocKi(), "ID", "TenHocKi");
+                return View();
+            }
+            else if (id > 0)
             {
                 ViewBag.Error = "Học Kì trong Khóa Đào Tạo này đã tồn tại";
                 ViewData["khoaDT"] = new SelectList(LayDanhSachKhoaDaoTao(), "ID", "TenKhoaDaoTao");
@@ -113,6 +120,7 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             else
             {
                 ThemTrangThaiDangKiMonHoc(trangthaidangki);
+                TempData["Success"] = "Thành công";
                 return RedirectToAction("Index");
             }
 
@@ -177,9 +185,10 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             }
 
             //bat loi mo dang ki mon hoc
-            if ((findkhoa == trangthaidangki.ID || findkhoa == 0) && sosanh == true)
+            if ((findkhoa == trangthaidangki.ID || findkhoa == 0) && sosanh == true && (trangthaidangki.ThoiGianBatDau != null && trangthaidangki.ThoiGianKetThuc != null))
             {
                 SuaTrangThaiDangKiMonHoc(trangthaidangki);
+                TempData["Success"] = "Thành công";
                 return RedirectToAction("Index");
             }
             else
@@ -191,6 +200,13 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
                     ViewData["hocki"] = new SelectList(LayDanhSachHocKi(), "ID", "TenHocKi");
                     return View();
 
+                }
+                else if (trangthaidangki.ThoiGianBatDau == null || trangthaidangki.ThoiGianKetThuc == null)
+                {
+                    ViewBag.Errorkhongnhapthoigian = "Thời gian bắt đầu hoặc kết thúc không được để trống";
+                    ViewData["khoaDT"] = new SelectList(LayDanhSachKhoaDaoTao(), "ID", "TenKhoaDaoTao");
+                    ViewData["hocki"] = new SelectList(LayDanhSachHocKi(), "ID", "TenHocKi");
+                    return View();
                 }
                 else if(sosanh == false)
                 {
@@ -229,6 +245,7 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             var output = XoaTrangThaiDangKiMonHoc(id);
             if (output)
             {
+                TempData["Success"] = "Thành công";
                 return RedirectToAction("Index");
             }
             else

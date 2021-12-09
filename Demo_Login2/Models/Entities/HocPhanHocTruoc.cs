@@ -22,5 +22,6 @@ namespace Demo_Login2.Models.Entities
         public ICollection<MonHocKhoaDaoTao> MonHocKhoaDaoTaos_IDHocPhanHocTruoc { get; set; }
         public ICollection<MonHocSinhVienDangKi> MonHocSinhVienDangKis_IDHocPhanHocTruoc { get; set; }
         public ICollection<KetQuaHocTap> KetQuaHocTaps_IDHocPhanHocTruoc { get; set; } 
+        
     }
 }
