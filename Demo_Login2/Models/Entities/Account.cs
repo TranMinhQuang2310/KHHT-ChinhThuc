@@ -11,7 +11,6 @@ namespace Demo_Login2.Models.Entities
     {
         [Key]
         public int ID { get; set; }
-        [StringLength(10)]
         public string Ma { get; set; }
         //public int? IDKhoaDaoTao { get; set; }
         //[ForeignKey("IDKhoaDaoTao")]
@@ -25,6 +24,7 @@ namespace Demo_Login2.Models.Entities
         public ICollection<SinhVienLopHoc> SinhVienLopHocs_IDAccount { get; set; }
         public ICollection<KetQuaHocTap> KetQuaHocTaps_IDAccount { get; set; }
         public ICollection<MonHocSinhVienDangKi> MonHocSinhVienDangKis_IDAccount { get; set; }
+        public ICollection<SinhVienDangKiKeHoachHocTap> SinhVienDangKiKeHoachHocTaps_IDAccount { get; set; }
 
     }
 }

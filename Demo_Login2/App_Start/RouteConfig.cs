@@ -15,9 +15,10 @@ namespace Demo_Login2
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
+                url: "{controller}/{action}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
+
 }

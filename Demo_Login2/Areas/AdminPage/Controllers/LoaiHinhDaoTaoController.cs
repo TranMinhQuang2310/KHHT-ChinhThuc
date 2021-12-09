@@ -36,7 +36,13 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
         public async Task<ActionResult> Create(LoaiHinhDaoTaoDTO loaihinhDT)
         {
             var id = LayLoaiHinhDaoTaoDaTonTai(loaihinhDT.TenLoaiHinh);
-            if (id > 0)
+            var resultLoaiHinhDT = LayYeuCauNhapLoaiHinhDaoTao(loaihinhDT);
+            if(resultLoaiHinhDT == false)
+            {
+                ViewBag.ErrorloaihinhDT = "Yêu cầu nhập các trường bắt buộc";
+                return View();
+            }
+            else if (id > 0)
             {
                 ViewBag.Message = " Loại Hình Đào Tạo đã tồn tại";               
                 return View();
@@ -44,6 +50,7 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             else
             {
                 ThemLoaiHinhDaoTao(loaihinhDT);
+                TempData["Success"] = "Thành công";
                 return RedirectToAction("Index");
             }
         }
@@ -76,11 +83,19 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
         public async Task<ActionResult> Edit(LoaiHinhDaoTaoDTO loaihinhDT)
         {
             var id = LayLoaiHinhDaoTaoDaTonTai(loaihinhDT.TenLoaiHinh);
-            if (id == loaihinhDT.ID || id == 0)
+            var resultLoaiHinhDT = LayYeuCauNhapLoaiHinhDaoTao(loaihinhDT);
+
+            if (id == loaihinhDT.ID || id == 0 && resultLoaiHinhDT == true)
             {
                 SuaLoaiHinhDaoTao(loaihinhDT);
+                TempData["Success"] = "Thành công";
                 return RedirectToAction("Index");
 
+            }
+            else if (resultLoaiHinhDT == false)
+            {
+                ViewBag.ErrorloaihinhDT = "Yêu cầu nhập các trường bắt buộc";
+                return View();
             }
             else
             {
@@ -95,6 +110,15 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             {
                 return bs.LayLoaiHinhDaoTao(id);
             }
+        }
+
+        public bool LayYeuCauNhapLoaiHinhDaoTao(LoaiHinhDaoTaoDTO loaihinh)
+        {
+            if(loaihinh.TenLoaiHinh == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool SuaLoaiHinhDaoTao(LoaiHinhDaoTaoDTO loaihinhDT)
@@ -119,6 +143,7 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
                 var output = XoaLoaiHinhDaoTao(id);
                 if (output)
                 {
+                    TempData["Success"] = "Thành công";
                     return RedirectToAction("Index");
                 }
                 else

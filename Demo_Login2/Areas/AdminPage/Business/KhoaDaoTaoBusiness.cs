@@ -100,6 +100,28 @@ namespace Demo_Login2.Areas.AdminPage.Business
                 throw;
             }
         }
+        public int CheckLoiKeHoachHocTap_Moi(int? id)
+        {
+            try
+            {
+                return model.KeHoachHocTap_Mois.Where(s => s.IDKhoaDaoTao == id).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public int CheckLoiSinhVienDangKiKeHoachHocTap_Moi(int? id)
+        {
+            try
+            {
+                return model.SinhVienDangKiKeHoachHocTaps.Where(s => s.IDKhoaDaoTao == id).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public List<KhoaDaoTaoDTO> LayDanhSachKhoaDaoTao()
         {

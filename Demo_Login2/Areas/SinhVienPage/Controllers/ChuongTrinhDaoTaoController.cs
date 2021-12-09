@@ -13,14 +13,36 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
         // GET: SinhVienPage/ChuongTrinhDaoTao
         public ActionResult Index()
         {
-            HttpCookie IDKhoa = HttpContext.Request.Cookies.Get("idKhoaDaoTao");
-            var idKhoaDT = Convert.ToInt32(IDKhoa.Value);
-            var lstctrdaotao = this.LayDanhSachChuongTrinhDaoTaoTheoKhoa(idKhoaDT);
+            var lstctrdaotao = this.LayDanhSachChuongTrinhDaoTao_Moi_TheoKhoaDaoTao(0);
             ViewBag.HocKi = LayDanhSachHocKi();
             ViewBag.PhanLoaiMonHoc = LayDanhSachPhanLoaiMonHoc();
             ViewBag.MonHoc = LayDanhSachMonHoc();
 
-            ViewData["khoaDT"] = new SelectList(LayDanhSachKhoaDaoTao_SinhVien(idKhoaDT), "ID", "TenKhoaDaoTao");
+            var listkhoaDT = LayDanhSachKhoaDaoTao();
+            listkhoaDT.Insert(0, new KhoaDaoTaoDTO
+            {
+                ID = 0,
+                TenKhoaDaoTao = "Chọn Khóa Đào Tạo"
+            });
+            ViewData["khoaDT"] = new SelectList(listkhoaDT, "ID", "TenKhoaDaoTao");
+            return View(lstctrdaotao);
+        }
+        
+        [HttpPost]
+        public ActionResult Index(int id)
+        {
+            var lstctrdaotao = this.LayDanhSachChuongTrinhDaoTao_Moi_TheoKhoaDaoTao(id);
+            ViewBag.HocKi = LayDanhSachHocKi();
+            ViewBag.PhanLoaiMonHoc = LayDanhSachPhanLoaiMonHoc();
+            ViewBag.MonHoc = LayDanhSachMonHoc();
+
+            var listkhoaDT = LayDanhSachKhoaDaoTao();
+            listkhoaDT.Insert(0, new KhoaDaoTaoDTO
+            {
+                ID = 0,
+                TenKhoaDaoTao = "Chọn Khóa Đào Tạo"
+            });
+            ViewData["khoaDT"] = new SelectList(listkhoaDT, "ID", "TenKhoaDaoTao");
             return View(lstctrdaotao);
         }
 
@@ -32,11 +54,11 @@ namespace Demo_Login2.Areas.SinhVienPage.Controllers
             }
         }
 
-        public List<ChuongTrinhDaoTaoDTO> LayDanhSachChuongTrinhDaoTaoTheoKhoa(int id)
+        public List<ChuongTrinhDaoTao_MoiDTO> LayDanhSachChuongTrinhDaoTao_Moi_TheoKhoaDaoTao(int id)
         {
-            using (ChuongTrinhDaoTaoBusiness bs = new ChuongTrinhDaoTaoBusiness())
+            using (ChuongTrinhDaoTao_MoiBusiness bs = new ChuongTrinhDaoTao_MoiBusiness())
             {
-                return bs.LayDanhSachChuongTrinhDaoTaoTheoKhoa(id);
+                return bs.LayDanhSachChuongTrinhDaoTao_Moi_TheoKhoaDaoTao(id);
             }
         }
 

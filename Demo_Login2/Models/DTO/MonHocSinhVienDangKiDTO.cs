@@ -26,8 +26,20 @@ namespace Demo_Login2.Models.DTO
         public int? IDKhoaBoMon { get; set; }
         public string TenKhoaBoMon { get; set; }
         public int? IDAccount { get; set; }       
+        public string HoVaTen { get; set; }
         public int? IDHocKi { get; set; }
+        public string TenHocKi { get; set; }
+
+        public int? IDKhoaDaoTao { get; set; }
+        public string TenKhoaDaoTao { get; set; }
+
+        public int? IDLopHoc { get; set; }
+        public string TenLop { get; set; }
+
+        public double Diem { get; set; }
         public int LoaiDangKi { get; set; }
         public bool TrangThai { get; set; }
+
+        public int ChoPhepDangKi { get; set; }
     }
 }

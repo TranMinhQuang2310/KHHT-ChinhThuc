@@ -127,6 +127,51 @@ namespace Demo_Login2.Areas.AdminPage.Business
             }
         }
 
+        public int CheckLoiKetQuaLapKeHoachDangKiSinhVien(int? id)
+        {
+            try
+            {
+                return model.MonHocSinhVienDangKis.Where(s => s.IDMonHoc == id).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public int CheckLoiChuongTrinhDaoTao_Moi(int? id)
+        {
+            try
+            {
+                return model.ChuongTrinhDaoTao_Mois.Where(s => s.IDMonHoc == id).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public int CheckLoiKeHoachHocTap_Moi(int? id)
+        {
+            try
+            {
+                return model.KeHoachHocTap_Mois.Where(s => s.IDMonHoc == id).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public int CheckLoiSinhVienDangKiKeHoachHocTap_Moi(int? id)
+        {
+            try
+            {
+                return model.SinhVienDangKiKeHoachHocTaps.Where(s => s.IDMonHoc == id).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public List<MonHocDTO> LayDanhSachMonHoc()
         {
             try
@@ -290,19 +335,63 @@ namespace Demo_Login2.Areas.AdminPage.Business
                     TenKhoaBoMon = s.KhoaBoMon.TenKhoaBoMon,
 
                     //Error
-                    //IDHocPhanTienQuyet = s.HocPhanTienQuyets_IDMonHoc.FirstOrDefault().ID,
-                    //IDMonHocTienQuyet = s.HocPhanTienQuyets_IDMonHoc.FirstOrDefault().MonHocTienQuyet.ID,
-                    //TenMonHocTienQuyet = s.HocPhanTienQuyets_IDMonHoc.FirstOrDefault().MonHocTienQuyet.TenMonHoc,
+                    IDHocPhanTienQuyet = s.HocPhanTienQuyets_IDMonHoc.FirstOrDefault().ID,
+                    IDMonHocTienQuyet = s.HocPhanTienQuyets_IDMonHoc.FirstOrDefault().MonHocTienQuyet.ID,
+                    TenMonHocTienQuyet = s.HocPhanTienQuyets_IDMonHoc.FirstOrDefault().MonHocTienQuyet.TenMonHoc,
 
-                    //IDHocPhanHocTruoc = s.HocPhanHocTruocs_IDMonHoc.FirstOrDefault().ID,
-                    //IDMonHocHocTruoc = s.HocPhanHocTruocs_IDMonHoc.FirstOrDefault().MonHocHocTruoc.ID,
-                    //TenMonHocHocTruoc = s.HocPhanHocTruocs_IDMonHoc.FirstOrDefault().MonHocHocTruoc.TenMonHoc,
+                    IDHocPhanHocTruoc = s.HocPhanHocTruocs_IDMonHoc.FirstOrDefault().ID,
+                    IDMonHocHocTruoc = s.HocPhanHocTruocs_IDMonHoc.FirstOrDefault().MonHocHocTruoc.ID,
+                    TenMonHocHocTruoc = s.HocPhanHocTruocs_IDMonHoc.FirstOrDefault().MonHocHocTruoc.TenMonHoc,
                 }).FirstOrDefault();
                 return monhocvuot;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int LayIDKhoaBoMonTheoTen(string tenkhoabm)
+        {
+            try
+            {
+                return model.KhoaBoMons.Where(s => s.TenKhoaBoMon == tenkhoabm).Select(s => s.ID).FirstOrDefault();
             }catch(Exception ex)
             {
                 throw ex;
             }
         }
+
+        //public MonHocSinhVienDangKiDTO LayMonHocVuotTheoMa(string ma)
+        //{
+        //    try
+        //    {
+        //        var monhocvuot = model.MonHocSinhVienDangKis.Where(s => s.MonHoc.MaMonHoc == ma).Select(s => new MonHocSinhVienDangKiDTO
+        //        {
+        //            ID = s.ID,
+        //            MaMonHoc = s.MonHoc.MaMonHoc,
+        //            TenMonHoc = s.MonHoc.TenMonHoc,
+        //            SoTinChi = s.MonHoc.SoTinChi,
+        //            SoTietLyThuyet = s.MonHoc.SoTietLyThuyet,
+        //            SoTietThucHanh = s.MonHoc.SoTietThucHanh,
+        //            IDKhoaBoMon = s.MonHoc.IDKhoaBoMon,
+        //            TenKhoaBoMon = s.MonHoc.KhoaBoMon.TenKhoaBoMon,
+
+        //            //Error
+        //            IDHocPhanTienQuyet = s.HocPhanTienQuyet.ID,
+        //            IDMonHocTienQuyet = s.HocPhanTienQuyet.MonHocTienQuyet.ID,
+        //            TenMonHocTienQuyet = s.HocPhanTienQuyet.MonHocTienQuyet.TenMonHoc,
+
+        //            IDHocPhanHocTruoc = s.HocPhanHocTruoc.ID,
+        //            IDMonHocHocTruoc = s.HocPhanHocTruoc.MonHocHocTruoc.ID,
+        //            TenMonHocHocTruoc = s.HocPhanHocTruoc.MonHocHocTruoc.TenMonHoc,
+        //        }).FirstOrDefault();
+        //        return monhocvuot;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }

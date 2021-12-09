@@ -21,6 +21,10 @@ namespace Demo_Login2.Models.Entities
         public ICollection<LopHoc> LopHocs_IDKhoaDaoTao { get; set; }
         public ICollection<MonHocKhoaDaoTao> MonHocKhoaDaoTaos_IDKhoaDaoTao { get; set; }
         public ICollection<TrangThaiDangKiMonHoc> TrangThaiDangKiMonHocs_IDKhoaDaoTao { get; set; }
+        public ICollection<MonHocSinhVienDangKi> MonHocSinhVienDangKis_IDKhoaDaoTao { get; set; }
+        public ICollection<ChuongTrinhDaoTao_Moi> ChuongTrinhDaoTao_Mois_IDKhoaDaoTao { get; set; }
+        public ICollection<KeHoachHocTap_Moi> KeHoachHocTap_Mois_IDKhoaDaoTao { get; set; }
+        public ICollection<SinhVienDangKiKeHoachHocTap> SinhVienDangKiKeHoachHocTaps_IDKhoaDaoTao { get; set; }
 
     }
 }

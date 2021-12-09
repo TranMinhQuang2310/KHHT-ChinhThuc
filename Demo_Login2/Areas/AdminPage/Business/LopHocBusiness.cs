@@ -50,6 +50,28 @@ namespace Demo_Login2.Areas.AdminPage.Business
                 throw;
             }
         }
+        public int CheckLoiLSinhVienLopHoc(int? id)
+        {
+            try
+            {
+                return model.SinhVienLopHocs.Where(s => s.IDLopHoc == id).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public int CheckLoiSinhVienDangKiKeHoachHocTap_Moi(int? id)
+        {
+            try
+            {
+                return model.SinhVienDangKiKeHoachHocTaps.Where(s => s.IDLopHoc == id).Select(s => s.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public List<LopHocDTO> LayDanhSachLopHoc()
         {
@@ -70,22 +92,41 @@ namespace Demo_Login2.Areas.AdminPage.Business
             }
         }
 
+        public List<LopHocDTO> LayDanhSachLopHocTheoKhoaDaoTaoTrongKetQuaLapKeHoachDangKi(int idKhoa)
+        {
+            try
+            {
+                var listlophoc = model.LopHocs.Where(s => s.IDKhoaDaoTao == idKhoa).Select(s => new LopHocDTO
+                {
+                    ID = s.ID,
+                    IDKhoaDaoTao = s.IDKhoaDaoTao,
+                    TenLop = s.TenLop,
+                    GhiChu = s.GhiChu
+                }).ToList();
+                return listlophoc;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<LopHocDTO> LayDanhSachLopHocTheoKhoaDaoTao(int id)
         {
             try
             {
-                if(id == 0)
+                if (id == 0)
                 {
-                    var listlophoc = model.LopHocs.Select(s => new LopHocDTO
+                    var listAcclop = model.LopHocs.Select(s => new LopHocDTO
                     {
                         ID = s.ID,
                         IDKhoaDaoTao = s.IDKhoaDaoTao,
                         TenLop = s.TenLop,
                         GhiChu = s.GhiChu
                     }).ToList();
-                    return listlophoc;
-                    
-                }else
+                    return listAcclop;
+                }
+                else
                 {
                     var listlophoc = model.LopHocs.Where(s => s.KhoaDaoTao.ID == id).Select(s => new LopHocDTO
                     {
@@ -96,7 +137,11 @@ namespace Demo_Login2.Areas.AdminPage.Business
                     }).ToList();
                     return listlophoc;
                 }
-            }catch(Exception ex)
+
+                
+
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -151,6 +196,37 @@ namespace Demo_Login2.Areas.AdminPage.Business
                 return true;
             }
             catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<LopHocDTO> LayDanhSachLopHocTheoID(int id)
+        {
+            try
+            {
+                var lstlophoc = model.LopHocs.Where(s => s.ID == id).Select(s => new LopHocDTO
+                {
+                    ID = s.ID,
+                    IDKhoaDaoTao = s.IDKhoaDaoTao,
+                    TenLop = s.TenLop,
+                    GhiChu = s.GhiChu
+                }).ToList();
+                return lstlophoc;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public int LayIDKhoaDaoTaoTheoTen(string tenkhoaDT)
+        {
+            try
+            {
+                return model.KhoaDaoTaos.Where(s => s.TenKhoaDaoTao == tenkhoaDT).Select(s => s.ID).FirstOrDefault();
+            }catch(Exception ex)
             {
                 throw ex;
             }

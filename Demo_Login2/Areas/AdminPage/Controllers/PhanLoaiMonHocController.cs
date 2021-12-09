@@ -38,7 +38,13 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
         public async Task<ActionResult> Create(PhanLoaiMonHocDTO phanloaimh)
         {
             var id = LayPhanLoaiMonHocDaTonTai(phanloaimh.LoaiMonHoc);
-            if(id > 0)
+            var resultphanloaiMH = LayYeuCauLoaiMonHoc(phanloaimh);
+            if(resultphanloaiMH == false)
+            {
+                ViewBag.ErrorloaiMH = "Yêu cầu nhập các trường bắt buộc";
+                return View();
+            }
+            else if(id > 0)
             {
                 ViewBag.Error = "Lọai Môn Học đã tồn tại";
                 return View();
@@ -46,6 +52,7 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             else
             {
                 ThemPhanLoaiMonHoc(phanloaimh);
+                TempData["Success"] = "Thành công";
                 return RedirectToAction("Index");
             }
         }
@@ -78,10 +85,17 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
         public async Task<ActionResult> Edit(PhanLoaiMonHocDTO phanloaimh)
         {
             var id = LayPhanLoaiMonHocDaTonTai(phanloaimh.LoaiMonHoc);
-            if (id == phanloaimh.ID || id == 0)
+            var resultphanloaiMH = LayYeuCauLoaiMonHoc(phanloaimh);
+            if (id == phanloaimh.ID || id == 0 && resultphanloaiMH == true)
             {
                 SuaPhanLoaiMonHoc(phanloaimh);
+                TempData["Success"] = "Thành công";
                 return RedirectToAction("Index");
+            }
+            else if (resultphanloaiMH == false)
+            {
+                ViewBag.ErrorloaiMH = "Yêu cầu nhập các trường bắt buộc";
+                return View();
             }
             else
             {
@@ -98,6 +112,15 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             }
         }
 
+        public bool LayYeuCauLoaiMonHoc(PhanLoaiMonHocDTO phanloai)
+        {
+            if(phanloai.LoaiMonHoc == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public bool SuaPhanLoaiMonHoc(PhanLoaiMonHocDTO phanloaimh)
         {
             using(PhanLoaiMonHocBusiness bs = new PhanLoaiMonHocBusiness())
@@ -110,9 +133,30 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var findphanloaimh = CheckLoiPhanLoaiMonHocDaTonTai(id);
-            if(findphanloaimh > 0)
+            var findphanloaimh_chuongtrinhdaotao = CheckLoiChuongTrinhDaoTao_Moi(id);
+            var findphanloaimh_kehoachhoctap_moi = CheckLoiKeHoachHocTap_Moi(id);
+            var findphanloaimh_sinhviendangkikehoachhoctap = CheckLoiSinhVienDangKiKeHoachHocTap_Moi(id);
+            if (findphanloaimh > 0)
             {
                 TempData["error"] = "lỗi";
+                return RedirectToAction("Index");
+            }
+            else if(findphanloaimh_chuongtrinhdaotao > 0)
+            {
+                TempData["error"] = "lỗi";
+                ViewBag.phanloaimonhoc = LayDanhSachPhanLoaiMonHoc();
+                return RedirectToAction("Index");
+            }
+            else if (findphanloaimh_kehoachhoctap_moi > 0)
+            {
+                TempData["error"] = "lỗi";
+                ViewBag.phanloaimonhoc = LayDanhSachPhanLoaiMonHoc();
+                return RedirectToAction("Index");
+            }
+            else if (findphanloaimh_sinhviendangkikehoachhoctap > 0)
+            {
+                TempData["error"] = "lỗi";
+                ViewBag.phanloaimonhoc = LayDanhSachPhanLoaiMonHoc();
                 return RedirectToAction("Index");
             }
             else
@@ -120,6 +164,7 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
                 var output = XoaPhanLoaiMonHoc(id);
                 if (output)
                 {
+                    TempData["Success"] = "Thành công";
                     return RedirectToAction("Index");
                 }
                 else
@@ -143,6 +188,28 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
             using(PhanLoaiMonHocBusiness bs = new PhanLoaiMonHocBusiness())
             {
                 return bs.CheckLoiPhanLoaiMonHocDaTonTai(id);
+            }
+        }
+        public int CheckLoiChuongTrinhDaoTao_Moi(int? id)
+        {
+            using(PhanLoaiMonHocBusiness bs = new PhanLoaiMonHocBusiness())
+            {
+                return bs.CheckLoiChuongTrinhDaoTao_Moi(id);
+            }
+        }
+
+        public int CheckLoiKeHoachHocTap_Moi(int? id)
+        {
+            using (PhanLoaiMonHocBusiness bs = new PhanLoaiMonHocBusiness())
+            {
+                return bs.CheckLoiKeHoachHocTap_Moi(id);
+            }
+        }
+        public int CheckLoiSinhVienDangKiKeHoachHocTap_Moi(int? id)
+        {
+            using (PhanLoaiMonHocBusiness bs = new PhanLoaiMonHocBusiness())
+            {
+                return bs.CheckLoiSinhVienDangKiKeHoachHocTap_Moi(id);
             }
         }
 

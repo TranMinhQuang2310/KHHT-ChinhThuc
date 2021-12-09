@@ -9,8 +9,10 @@ namespace Demo_Login2.Models.DTO
     {
         public int ID { get; set; }
         public int? IDKhoaBoMon { get; set; }
+
         public string MaMonHoc { get; set; }
         public string TenMonHoc { get; set; }
+
         //public int? IDHocPhanTienQuyet { get; set; }
         //public int? IDHocPhanHocTruoc { get; set; }
         //public int SoTiet { get; set; }

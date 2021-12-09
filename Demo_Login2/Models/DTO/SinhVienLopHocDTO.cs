@@ -9,6 +9,7 @@ namespace Demo_Login2.Models.DTO
     {
         public int ID { get; set; }
         public int Name { get; set; }
+        public string Ma { get; set; }
         public int? IDAccount { get; set; }
         public int? IDLopHoc { get; set; }
         public bool IsDisable { get; set; }

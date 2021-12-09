@@ -85,6 +85,118 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
 
         }
 
+        //Upload Danh sach Excel 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Upload(FormCollection formCollection)
+        {
+            if (Request != null)
+            {
+                HttpPostedFileBase file = Request.Files["UploadedFile"];
+                if ((file != null) && (file.ContentLength > 0) && !string.IsNullOrEmpty(file.FileName))
+                {
+                    OfficeOpenXml.ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+                    using (var package = new OfficeOpenXml.ExcelPackage(file.InputStream))
+                    {
+                        var currentSheet = package.Workbook.Worksheets;
+                        var workSheet = currentSheet.First();
+                        var noOfCol = workSheet.Dimension.End.Column;
+                        var noOfRow = workSheet.Dimension.End.Row;
+                        ViewBag.Error = "";
+                        List<HocPhanTienQuyetDTO> hocphantienquyetList = new List<HocPhanTienQuyetDTO>();
+
+                        List<int> lstRowError_TenMonHocTienQuyet_Trung = new List<int>();
+                        List<int> lstRowError_MonHoc_KhongCoKiTu = new List<int>();
+                        List<int> lstRowError_TenMonHocTienQuyet_KhongCoKiTu = new List<int>();
+
+                        for (int rowIterator = 2; rowIterator <= noOfRow; rowIterator++)
+                        {
+                            var lsthocphantienquyet = new HocPhanTienQuyetDTO();
+                            lsthocphantienquyet.IDMonHoc = Convert.ToInt32(workSheet.Cells[rowIterator, 1].Value);
+                            lsthocphantienquyet.IDMonHocTienQuyet = Convert.ToInt32(workSheet.Cells[rowIterator, 2].Value);
+                            lsthocphantienquyet.GhiChu = Convert.ToString(workSheet.Cells[rowIterator, 3].Value).Trim();
+
+                            var findmonhoc = CheckLoiMonHocTienQuyetTheoMonHocDaTonTai(lsthocphantienquyet.IDMonHoc, lsthocphantienquyet.IDMonHocTienQuyet);
+                            if(lsthocphantienquyet.IDMonHoc < 1)
+                            {
+                                lstRowError_MonHoc_KhongCoKiTu.Add(rowIterator);
+
+                            }
+                            if(lsthocphantienquyet.IDMonHocTienQuyet < 1)
+                            {
+                                lstRowError_TenMonHocTienQuyet_KhongCoKiTu.Add(rowIterator);
+
+                            }
+                            if (findmonhoc > 0)
+                            {
+                                lstRowError_TenMonHocTienQuyet_Trung.Add(rowIterator);
+
+                            }
+                            else
+                            {
+                                hocphantienquyetList.Add(lsthocphantienquyet);
+                            }
+                        }
+
+                        if(lstRowError_MonHoc_KhongCoKiTu.Count() > 0 || lstRowError_TenMonHocTienQuyet_KhongCoKiTu.Count() > 0 || lstRowError_TenMonHocTienQuyet_Trung.Count() > 0)
+                        {
+                            if (lstRowError_MonHoc_KhongCoKiTu.Count() > 0)
+                            {
+                                var error = "Các dòng chưa nhập đầy đủ thông tin trong File Excel cột Tên Môn Học : ";
+                                foreach (var item in lstRowError_MonHoc_KhongCoKiTu)
+                                {
+                                    error += "Dòng " + item + " ";
+                                }
+                                ViewBag.Errorkhongcokitu += error + "</br>";
+                            }
+                            if (lstRowError_TenMonHocTienQuyet_KhongCoKiTu.Count() > 0)
+                            {
+                                var error = "Các dòng chưa nhập đầy đủ thông tin trong File Excel cột Tên Môn Học Tiên Quyết : ";
+                                foreach (var item in lstRowError_TenMonHocTienQuyet_KhongCoKiTu)
+                                {
+                                    error += "Dòng " + item + " ";
+                                }
+                                ViewBag.Errorkhongcokitu += error + "</br>";
+                            }
+                            if (lstRowError_TenMonHocTienQuyet_Trung.Count() > 0)
+                            {
+                                var error = "Các dòng bị trùng ở cột Tên Môn Học Tiên Quyết trong File Excel : ";
+                                foreach (var item in lstRowError_TenMonHocTienQuyet_Trung)
+                                {
+                                    error += "Dòng " + item + " ";
+                                }
+                                ViewBag.trungdata += error + "</br>";
+                            }
+                            var lsthocphanTQs = LayDanhSachHocPhanTienQuyet();
+                            ViewBag.monhoc = LayDanhSachMonHoc();
+                            ViewBag.monhoctienquyet = LayDanhSachMonHoc();
+                            return View("Index", lsthocphanTQs);
+                        }
+                        else
+                        {
+                            foreach (var item in hocphantienquyetList)
+                            {
+                                ThemHocPhanTienQuyet(item);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    ViewBag.Error = "Chưa có File";
+                    var lsthocphanTQs = LayDanhSachHocPhanTienQuyet();
+                    ViewBag.monhoc = LayDanhSachMonHoc();
+                    ViewBag.monhoctienquyet = LayDanhSachMonHoc();
+                    return View("Index", lsthocphanTQs);
+                }
+            }
+            ViewBag.Success = "Thành Công";
+            var lsthocphanTQ = LayDanhSachHocPhanTienQuyet();
+            ViewBag.monhoc = LayDanhSachMonHoc();
+            ViewBag.monhoctienquyet = LayDanhSachMonHoc();
+            return View("Index", lsthocphanTQ);
+        }
+
         public int CheckLoiMonHocTienQuyetTheoMonHocDaTonTai(int? idMonHoc,int? idMonHocTienQuyet)
         {
             using(MonHocBusiness bs = new MonHocBusiness())
@@ -108,6 +220,8 @@ namespace Demo_Login2.Areas.AdminPage.Controllers
                 return bs.LayHocPhanTienQuyetDaTonTai(id);
             }
         }
+
+
         public bool ThemHocPhanTienQuyet(HocPhanTienQuyetDTO hocphanTQ)
         {
             using (HocPhanTienQuyetBusiness bs = new HocPhanTienQuyetBusiness())
